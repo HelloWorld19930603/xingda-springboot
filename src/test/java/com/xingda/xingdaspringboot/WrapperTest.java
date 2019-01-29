@@ -1,16 +1,11 @@
 package com.xingda.xingdaspringboot;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,12 +16,10 @@ import java.util.List;
 @SpringBootTest
 public class WrapperTest {
 
-    @Resource
-    private UserMapper User1Mapper;
-
 
     @Test
     public void tests() {
+/*
         System.out.println("----- 普通查询 ------");
         List<User1> plainUser1s = User1Mapper.selectList(new QueryWrapper<User1>().eq("id", 2L));
         List<User1> lambdaUser1s = User1Mapper.selectList(new QueryWrapper<User1>().lambda().eq(User1::getId, 2L));
@@ -62,13 +55,14 @@ public class WrapperTest {
         User1Mapper.update(new User1(), uw);
         User1 u4 = User1Mapper.selectById(4);
         Assert.assertNull(u4.getEmail());
+*/
 
 
     }
 
     @Test
-    public void lambdaQueryWrapper(){
-        System.out.println("----- 普通查询 ------");
+    public void lambdaQueryWrapper() {
+/*        System.out.println("----- 普通查询 ------");
         List<User1> plainUser1s = User1Mapper.selectList(new LambdaQueryWrapper<User1>().eq(User1::getId, 2L));
         List<User1> lambdaUser1s = User1Mapper.selectList(new QueryWrapper<User1>().lambda().eq(User1::getId, 2L));
         Assert.assertEquals(plainUser1s.size(), lambdaUser1s.size());
@@ -102,7 +96,7 @@ public class WrapperTest {
         uw.eq("id",4);
         User1Mapper.update(new User1(), uw);
         User1 u4 = User1Mapper.selectById(4);
-        Assert.assertNull(u4.getEmail());
+        Assert.assertNull(u4.getEmail());*/
     }
 
     private <T> void print(List<T> list) {
