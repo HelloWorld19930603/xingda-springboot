@@ -167,7 +167,7 @@
         //几个参数需要注意一下
         type: "POST",//方法类型
         dataType: "json",//预期服务器返回的数据类型
-        url: "/output",//url
+        url: "<%=context%>/output",//url
         data: "mark=" + mark,
         success: function (result) {
           console.log(result);//打印服务端返回的数据(调试用)
@@ -177,7 +177,7 @@
               html: '抱歉，未查询到相关记录 '
             });
           }else {
-              window.location.href = "/output?mark="+mark;
+              window.location.href = "<%=context%>/output?mark="+mark;
           }
         },
         error: function (data) {
@@ -191,7 +191,7 @@
 
 
       $("#editable-sample_new").click(function () {
-          window.location.href = "/input";
+          window.location.href = "<%=context%>/input";
       })
   })();
 

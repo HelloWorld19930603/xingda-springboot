@@ -244,7 +244,7 @@ $(function () {
           //几个参数需要注意一下
           type: "POST",//方法类型
           dataType: "json",//预期服务器返回的数据类型
-          url: "/input",//url
+          url: "<%=context%>/input",//url
           data: "name=" + name + "&com=" + com + "&date=" + date + "&no=" + no+ "&project=" + project+ "&product="
                   + product+ "&type=" + type+ "&day=" + day+ "&remark=" + remark,
           success: function (result) {

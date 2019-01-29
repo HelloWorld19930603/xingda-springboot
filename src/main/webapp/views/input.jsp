@@ -265,7 +265,7 @@
     });
 
   $("#editable-sample_new").click(function () {
-    window.location.href = "/search";
+    window.location.href = "<%=context%>/search";
   })
 
   })();
