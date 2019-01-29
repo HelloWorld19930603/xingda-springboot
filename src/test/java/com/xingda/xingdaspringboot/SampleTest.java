@@ -3,7 +3,6 @@ package com.xingda.xingdaspringboot;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xingda.maintenance.domain.Info;
 import com.xingda.maintenance.mapper.InfoMapper;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
