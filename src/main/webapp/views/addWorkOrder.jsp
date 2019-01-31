@@ -428,28 +428,31 @@
     //GPS坐标
     var x = 116.32715863448607;
     var y = 39.990912172420714;
-    getLocation();
-    var bm1,bm2,bm3,bm4;
 
+    var bm1,bm2,bm3,bm4;
+    bm1 = map(x,y,"allmap1");
+    bm2 = map(x,y,"allmap2");
+    bm3 = map(x,y,"allmap3");
+    bm4 = map(x,y,"allmap4");
     function map(x,y,map) {
         var ggPoint = new BMap.Point(x,y);
         //地图初始化
         var bm = new BMap.Map(map);
         bm.centerAndZoom(ggPoint, 15);
         bm.addControl(new BMap.NavigationControl());
-        var convertor = new BMap.Convertor();
-        var pointArr = [];
-        pointArr.push(ggPoint);
-        convertor.translate(pointArr, 1, 5, function (data) {
-            if(data.status === 0) {
-                var marker = new BMap.Marker(data.points[0]);
-                bm.addOverlay(marker);
-                var label = new BMap.Label("当前位置",{offset:new BMap.Size(20,-10)});
-                marker.setLabel(label); //添加百度label
-                bm.centerAndZoom(data.points[0], 15);
-                bm.setCenter(data.points[0]);
+        var geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                var mk = new BMap.Marker(r.point);
+                bm.addOverlay(mk);
+                bm.panTo(r.point);
+               // alert('您的位置：'+r.point.lng+','+r.point.lat);
             }
-        })
+            else {
+                alert('failed'+this.getStatus());
+            }
+        });
+
         return bm;
     }
 
@@ -458,10 +461,7 @@
             navigator.geolocation.getCurrentPosition(function (position) {
                 x = position.coords.latitude;
                 y = position.coords.longitude;
-                bm1 = map(x,y,"allmap1");
-                bm2 = map(x,y,"allmap2");
-                bm3 = map(x,y,"allmap3");
-                bm4 = map(x,y,"allmap4");
+                alert(x+","+y)
             });
         }else{
             swal({
