@@ -38,7 +38,7 @@
         list-style: none;
     }
 
-    .com-info {
+    .com-purchaseInfo {
         padding: 0.5rem 1rem;
         line-height: 1.5rem;
         text-align: center;
@@ -201,7 +201,7 @@
                                     <div class="col-sm-10">
                                         <section class="result-box" id="resultBox" hidden="" style="display: block;">
 
-                                                <div class="com-info">快递公司：<span class="info1" id="showName">${logistics.ShipperCode}</span>
+                                                <div class="com-purchaseInfo">快递公司：<span class="info1" id="showName">${logistics.ShipperCode}</span>
                                                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;快递单号：<span class="info2" id="showNumber">${logistics.LogisticCode}</span></div>
                                                 <div class="result-success" id="success">
                                                     <c:if test="${error != null}">

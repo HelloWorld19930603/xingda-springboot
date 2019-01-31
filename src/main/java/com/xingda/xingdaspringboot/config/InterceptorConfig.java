@@ -24,7 +24,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 判断用户是否登录的拦截器
-        registry.addInterceptor(loginHandlerInterceptor).excludePathPatterns("/static/**","*.jsp").addPathPatterns("/**");
+        registry.addInterceptor(loginHandlerInterceptor).excludePathPatterns("/static/**","*.jsp").addPathPatterns("/genergy/**");
     }
 
 

@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Info {
+public class PurchaseInfo {
 
     @TableId(type = IdType.AUTO)
     private Long id;

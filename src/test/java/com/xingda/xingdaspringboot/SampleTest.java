@@ -1,8 +1,8 @@
 package com.xingda.xingdaspringboot;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.xingda.maintenance.domain.Info;
-import com.xingda.maintenance.mapper.InfoMapper;
+import com.xingda.maintenance.domain.PurchaseInfo;
+import com.xingda.maintenance.mapper.PurchaseInfoMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,15 +16,15 @@ import java.util.List;
 public class SampleTest {
 
     @Resource
-    InfoMapper infoMapper;
+    PurchaseInfoMapper purchaseInfoMapper;
 
 
     @Test
     public void test2(){
         String remark = "";
-        List<Info> infoList = infoMapper.selectList(new LambdaQueryWrapper<Info>().like(Info::getName,remark).or()
-                .like(Info::getProject,remark).or().like(Info::getProduct,remark).orderByDesc(Info::getId));
-        infoList.forEach(System.out::println);
+        List<PurchaseInfo> purchaseInfoList = purchaseInfoMapper.selectList(new LambdaQueryWrapper<PurchaseInfo>().like(PurchaseInfo::getName,remark).or()
+                .like(PurchaseInfo::getProject,remark).or().like(PurchaseInfo::getProduct,remark).orderByDesc(PurchaseInfo::getId));
+        purchaseInfoList.forEach(System.out::println);
 
     }
 
@@ -33,8 +33,8 @@ public class SampleTest {
     @Test
     public void test3(){
         String remark = "";
-        int num = infoMapper.selectCount(new LambdaQueryWrapper<Info>().like(Info::getName,remark).or()
-                .like(Info::getProject,remark).or().like(Info::getProduct,remark));
+        int num = purchaseInfoMapper.selectCount(new LambdaQueryWrapper<PurchaseInfo>().like(PurchaseInfo::getName,remark).or()
+                .like(PurchaseInfo::getProject,remark).or().like(PurchaseInfo::getProduct,remark));
         System.out.println(num);
 
     }
@@ -42,9 +42,9 @@ public class SampleTest {
     @Test
     public void test4(){
         String remark = "";
-        Info info = infoMapper.selectOneInfo(new LambdaQueryWrapper<Info>().like(Info::getName,remark).or()
-                .like(Info::getProject,remark).or().like(Info::getProduct,remark).orderByDesc(Info::getId));
-        System.out.println(info.toString());
+        PurchaseInfo purchaseInfo = purchaseInfoMapper.selectOneInfo(new LambdaQueryWrapper<PurchaseInfo>().like(PurchaseInfo::getName,remark).or()
+                .like(PurchaseInfo::getProject,remark).or().like(PurchaseInfo::getProduct,remark).orderByDesc(PurchaseInfo::getId));
+        System.out.println(purchaseInfo.toString());
 
     }
 }

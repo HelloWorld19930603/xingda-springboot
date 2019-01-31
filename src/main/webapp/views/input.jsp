@@ -213,13 +213,13 @@
       var day = document.querySelector('[name="day"]').value;
       if ((no == null || no == '') && com != null && com != '') {
         swal({
-          type: 'info',
+          type: 'purchaseInfo',
           html: '请填写物流单号！'
         });
         return;
     }else if (no != null && no != '' && (com == null || com == '')) {
         swal({
-          type: 'info',
+          type: 'purchaseInfo',
           html: '请选择物流公司！'
         });
         return;
@@ -228,7 +228,7 @@
       swal({
         title: '你确定吗?',
         text: '确认要提交添请购设备/材料信息?',
-        type: 'info',
+        type: 'purchaseInfo',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',

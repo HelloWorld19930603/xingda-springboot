@@ -1,11 +1,11 @@
 package com.xingda.maintenance.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xingda.maintenance.domain.Info;
-import com.xingda.maintenance.service.InfoService;
+import com.xingda.maintenance.domain.PurchaseInfo;
+import com.xingda.maintenance.service.PurchaseInfoService;
 import com.xingda.utils.KdniaoTrackQueryAPI;
 import com.xingda.utils.SqlUtils;
-import com.xingda.utils.StringUtils;
+import com.xingda.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ public class PurchaseController {
     @Autowired
     SqlUtils sqlUtils;
     @Autowired
-    InfoService infoService;
+    PurchaseInfoService purchaseInfoService;
 
     @RequestMapping(value = "input",method = RequestMethod.GET)
     public String input(){
@@ -28,21 +28,21 @@ public class PurchaseController {
     }
     @RequestMapping(value = "input",method = RequestMethod.POST)
     @ResponseBody
-    public Object input(Info info){
-        infoService.insertOne(info);
+    public Object input(PurchaseInfo purchaseInfo){
+        purchaseInfoService.insertOne(purchaseInfo);
         return 0;
     }
 
     @RequestMapping(value = "output",method = RequestMethod.GET)
     public String output(String mark, Model model){
-        Info info = infoService.selectOne(mark);
-        String com = info.getCom().toUpperCase();
-        String no = info.getNo();
-        if(StringUtils.notNull(com) && StringUtils.notNull(no)){
+        PurchaseInfo purchaseInfo = purchaseInfoService.selectOne(mark);
+        String com = purchaseInfo.getCom().toUpperCase();
+        String no = purchaseInfo.getNo();
+        if(StringUtil.notNull(com) && StringUtil.notNull(no)){
             JSONObject logistics = KdniaoTrackQueryAPI.getLogistics(com,no);
             model.addAttribute("logistics",logistics);
         }
-        model.addAttribute("info", info);
+        model.addAttribute("purchaseInfo", purchaseInfo);
         return "output";
     }
     @RequestMapping(value = "output",method = RequestMethod.POST)
@@ -51,7 +51,7 @@ public class PurchaseController {
         if (mark == null) {
             mark = "";
         }
-        int num = infoService.selectCount(mark);
+        int num = purchaseInfoService.selectCount(mark);
         if (num == 0) {
             return 0;
         } else {

@@ -59,42 +59,42 @@
                   <div class="form-group ">
                     <label for="date" class="control-label col-lg-3">请购日期</label>
                     <div class="col-lg-5">
-                      <input class=" form-control" id="date" name="date" type="text" value="<fmt:formatDate value="${info.date}" pattern="yyyy-MM-dd" />"/>
+                      <input class=" form-control" id="date" name="date" type="text" value="<fmt:formatDate value="${purchaseInfo.date}" pattern="yyyy-MM-dd" />"/>
                     </div>
                   </div>
                   <div class="form-group ">
                     <label for="project" class="control-label col-lg-3">项目名称</label>
                     <div class="col-lg-5">
-                      <input class=" form-control" id="project" name="project" type="text" value="${info.project}"/>
+                      <input class=" form-control" id="project" name="project" type="text" value="${purchaseInfo.project}"/>
                     </div>
                   </div>
                   <div class="form-group ">
                     <label for="name" class="control-label col-lg-3">负责人</label>
                     <div class="col-lg-5">
-                      <input class="form-control " id="name" name="name" type="text" value="${info.name}"/>
+                      <input class="form-control " id="name" name="name" type="text" value="${purchaseInfo.name}"/>
                     </div>
                   </div>
                   <div class="form-group ">
                   <label for="product" class="control-label col-lg-3">产品名称</label>
                   <div class="col-lg-5">
-                    <input class="form-control " id="product" name="product" type="text" value="${info.product}"/>
+                    <input class="form-control " id="product" name="product" type="text" value="${purchaseInfo.product}"/>
                   </div>
                 </div>                  <div class="form-group ">
                   <label for="type" class="control-label col-lg-3">型号</label>
                   <div class="col-lg-5">
-                    <input class="form-control " id="type" name="type" type="text" value="${info.type}"/>
+                    <input class="form-control " id="type" name="type" type="text" value="${purchaseInfo.type}"/>
                   </div>
                 </div>
                   <div class="form-group ">
                     <label for="day" class="control-label col-lg-3">货期</label>
                     <div class="col-lg-5">
-                      <input class="form-control " id="day" name="day" type="text" value="${info.day}"/>
+                      <input class="form-control " id="day" name="day" type="text" value="${purchaseInfo.day}"/>
                     </div>
                   </div>
                   <div class="form-group ">
                     <label for="no" class="control-label col-lg-3">单号</label>
                     <div class="col-lg-5">
-                      <input class="form-control " id="no" name="no" type="text" value="${info.no}"/>
+                      <input class="form-control " id="no" name="no" type="text" value="${purchaseInfo.no}"/>
                     </div>
                   </div>
                   <div class="form-group ">
@@ -108,7 +108,7 @@
                   <div class="form-group ">
                     <label for="remark" class="control-label col-lg-3">备注</label>
                     <div class="col-lg-5">
-                      <input class="form-control " id="remark" name="remark" type="text" value="${info.remark}"/>
+                      <input class="form-control " id="remark" name="remark" type="text" value="${purchaseInfo.remark}"/>
                     </div>
                   </div>
 
@@ -125,13 +125,13 @@
       </div>
     </div>
     <!--body wrapper end-->
-<c:if test="${ empty info.no  &&  empty info.com}">
+<c:if test="${ empty purchaseInfo.no  &&  empty purchaseInfo.com}">
       <h4 style="margin: 0 35%;margin-bottom: 10px;">暂无物流信息</h4>
 </c:if>
   </div>
   <!-- main content end-->
 </section>
-<c:if test="${not empty info.no  && not empty info.com}">
+<c:if test="${not empty purchaseInfo.no  && not empty purchaseInfo.com}">
 <%@ include file="logistics.jsp"%>
 </c:if>
 <!-- Placed js at the end of the document so the pages load faster -->
@@ -192,14 +192,14 @@ const EXPRESS_MAP = [{"com": "顺丰", "no": "sf"}, {"com": "申通", "no": "sto
 $(function () {
   var typeSelect = document.querySelector('select[id="com"]');
   var option1 = typeSelect.children[0];
-  option1.value = '${info.no}';
-  option1.innerText = '${info.com}';
+  option1.value = '${purchaseInfo.no}';
+  option1.innerText = '${purchaseInfo.com}';
   option1.selected = true;
   for (var key in EXPRESS_MAP) {
     var option = document.createElement('option');
     option.value = EXPRESS_MAP[key].no;
     option.innerText = EXPRESS_MAP[key].com;
-    if (EXPRESS_MAP[key].no == '${info.com}') {
+    if (EXPRESS_MAP[key].no == '${purchaseInfo.com}') {
       option1.innerText = EXPRESS_MAP[key].com;
     }
     typeSelect.appendChild(option);
@@ -217,13 +217,13 @@ $(function () {
     var day = document.querySelector('[name="day"]').value;
     if ((no == null || no == '') && com != null && com != '') {
       swal({
-        type: 'info',
+        type: 'purchaseInfo',
         html: '请填写物流单号！'
       });
       return;
     }else if (no != null && no != '' && (com == null || com == '')) {
       swal({
-        type: 'info',
+        type: 'purchaseInfo',
         html: '请选择物流公司！'
       });
       return;
@@ -232,7 +232,7 @@ $(function () {
     swal({
       title: '你确定吗?',
       text: '确认要修改添请购设备/材料信息?',
-      type: 'info',
+      type: 'purchaseInfo',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
@@ -270,9 +270,9 @@ $(function () {
 
 
 
-<c:if test="${info.com != null}">
+<c:if test="${purchaseInfo.com != null}">
 for (var key in EXPRESS_MAP) {
-  if (EXPRESS_MAP[key].no == '${info.com}') {
+  if (EXPRESS_MAP[key].no == '${purchaseInfo.com}') {
     $("#com").val(EXPRESS_MAP[key].com)
     break;
   }

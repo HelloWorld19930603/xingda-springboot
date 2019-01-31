@@ -187,7 +187,7 @@
         $(document).resize(t2);
         $(document).scroll(t2);
     }
-    t();
+   // t();
 
 })(jQuery);
 
