@@ -430,10 +430,7 @@
     var y = 39.990912172420714;
     getLocation();
     var bm1,bm2,bm3,bm4;
-    bm1 = map(x,y,"allmap1");
-    bm2 = map(x,y,"allmap2");
-    bm3 = map(x,y,"allmap3");
-    bm4 = map(x,y,"allmap4");
+
     function map(x,y,map) {
         var ggPoint = new BMap.Point(x,y);
         //地图初始化
@@ -461,7 +458,10 @@
             navigator.geolocation.getCurrentPosition(function (position) {
                 x = position.coords.latitude;
                 y = position.coords.longitude;
-                alert(x+","+y)
+                bm1 = map(x,y,"allmap1");
+                bm2 = map(x,y,"allmap2");
+                bm3 = map(x,y,"allmap3");
+                bm4 = map(x,y,"allmap4");
             });
         }else{
             swal({
