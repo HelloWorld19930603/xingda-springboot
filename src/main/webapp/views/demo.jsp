@@ -19,9 +19,16 @@
     var x=document.getElementById("demo");
     function getLocation(){
         if (navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(showPosition);
+            navigator.geolocation.getCurrentPosition(function (position) {
+                x = position.coords.latitude;
+                y = position.coords.longitude;
+                alert(x+","+y)
+            });
         }else{
-            x.innerHTML="Geolocation is not supported by this browser.";
+            swal({
+                type: 'warning',
+                html: '游览器不支持获取经纬度'
+            });
         }
     }
     function showPosition(position){
