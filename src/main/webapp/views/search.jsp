@@ -118,6 +118,9 @@
             <button id="editable-sample_new" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
                 录入 <i class="fa fa-plus"></i>
             </button>
+          <button id="editable-sample_new2" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
+            创建工单 <i class="fa fa-plus"></i>
+          </button>
         </div>
     </div>
     <!-- page heading end-->
@@ -193,6 +196,9 @@
       $("#editable-sample_new").click(function () {
           window.location.href = "<%=context%>/input";
       })
+    $("#editable-sample_new2").click(function () {
+      window.location.href = "<%=context%>/genergy/addWorkOrder";
+    })
   })();
 
 
