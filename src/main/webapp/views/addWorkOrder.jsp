@@ -295,7 +295,7 @@
             }else{
                 swal({
                     type: 'warning',
-                    html: '请添加商品图片'
+                    html: '请添加客户图片'
                 });
                 return;
             }
@@ -322,7 +322,7 @@
             }else{
                 swal({
                     type: 'warning',
-                    html: '请添加商品图片'
+                    html: '请添加客户图片'
                 });
                 return;
             }
@@ -349,7 +349,7 @@
             }else{
                 swal({
                     type: 'warning',
-                    html: '请添加商品图片'
+                    html: '请添加客户图片'
                 });
                 return;
             }
@@ -376,7 +376,7 @@
             }else{
                 swal({
                     type: 'warning',
-                    html: '请添加商品图片'
+                    html: '请添加客户图片'
                 });
                 return;
             }
@@ -461,6 +461,7 @@
             navigator.geolocation.getCurrentPosition(function (position) {
                 x = position.coords.latitude;
                 y = position.coords.longitude;
+                alert(x+","+y)
             });
         }else{
             swal({
