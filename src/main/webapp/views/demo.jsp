@@ -20,8 +20,8 @@
     function getLocation(){
         if (navigator.geolocation){
             navigator.geolocation.getCurrentPosition(function (position) {
-                x = position.coords.latitude;
-                y = position.coords.longitude;
+                var x = position.coords.latitude;
+                var y = position.coords.longitude;
                 alert(x+","+y)
             });
         }else{
