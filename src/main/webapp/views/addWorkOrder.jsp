@@ -462,8 +462,8 @@
         {
         navigator.geolocation.getCurrentPosition(function (r) {
             if(this.getStatus() == BMAP_STATUS_SUCCESS){
-                x = r.point.lng;
-                y = r.point.lat;
+                x = r.coords.longitude;
+                y = r.coords.latitude;
                 map("allmap1");
             }
             else {
