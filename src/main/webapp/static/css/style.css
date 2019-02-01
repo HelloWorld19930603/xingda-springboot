@@ -2623,7 +2623,7 @@ input:focus:invalid:focus, textarea:focus:invalid:focus, select:focus:invalid:fo
 
 .widget-container .stepy-tab ul li.current-step, .block-tabby ul li.current-step{
     border:none ;
-    background: #ef579d!important;
+    background: #7992a0!important;
     color: #fff;
 }
 

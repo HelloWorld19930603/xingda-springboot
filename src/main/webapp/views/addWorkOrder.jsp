@@ -59,7 +59,7 @@
                             <form id="default" class="form-horizontal" onsubmit="javascript:confirm()">
                                 <fieldset title="工单信息一">
                                     <legend></legend>
-                                    <input type="hidden" value="1" id="id">
+                                    <input type="hidden" value="" id="id">
                                     <input type="hidden" value="${order.lon1}" id="lon1">
                                     <input type="hidden" value="${order.lat2}" id="lat1">
                                     <div class="form-group">
@@ -69,9 +69,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-2 col-sm-2 control-label">用户编号</label>
+                                        <label class="col-md-2 col-sm-2 control-label">员工编号</label>
                                         <div class="col-md-6 col-sm-6">
-                                            <input type="text" id="userId" placeholder="用户编号" class="form-control" value="1">
+                                            <input type="text" id="userId" placeholder="员工编号" class="form-control" value="">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -302,14 +302,12 @@
             var customer = $("#customer").val().trim();
             var userId = $("#userId").val().trim();
             var id = $("#id").val().trim();
-            var lat1 = $("#lat1").val().trim();
-            var lon1 = $("#lon1").val().trim();
             var img1 = $("#img1").val().trim();
             formData.append('customer', customer);
             formData.append('userId', userId);
             formData.append('id', id);
-            formData.append('lat1', lat1);
-            formData.append('lon1', lon1);
+            formData.append('lat1', y);
+            formData.append('lon1', x);
             formData.append('img1', img1);
             formData.append('mark', 1);
             save(formData);
@@ -329,14 +327,12 @@
             var customer = $("#customer").val().trim();
             var userId = $("#userId").val().trim();
             var id = $("#id").val().trim();
-            var lat2 = $("#lat2").val().trim();
-            var lon2 = $("#lon2").val().trim();
             var img2 = $("#img2").val().trim();
             formData.append('customer', customer);
             formData.append('userId', userId);
             formData.append('id', id);
-            formData.append('lat2', lat2);
-            formData.append('lon2', lon2);
+            formData.append('lat2', y);
+            formData.append('lon2', x);
             formData.append('img2', img2);
             formData.append('mark', 2);
             save(formData);
@@ -356,14 +352,12 @@
             var customer = $("#customer").val().trim();
             var userId = $("#userId").val().trim();
             var id = $("#id").val().trim();
-            var lat3 = $("#lat3").val().trim();
-            var lon3 = $("#lon3").val().trim();
             var img3 = $("#img3").val().trim();
             formData.append('customer', customer);
             formData.append('userId', userId);
             formData.append('id', id);
-            formData.append('lat3', lat3);
-            formData.append('lon3', lon3);
+            formData.append('lat3', y);
+            formData.append('lon3', x);
             formData.append('img3', img3);
             formData.append('mark', 3);
             save(formData);
@@ -383,14 +377,12 @@
             var customer = $("#customer").val().trim();
             var userId = $("#userId").val().trim();
             var id = $("#id").val().trim();
-            var lat4 = $("#lat4").val().trim();
-            var lon4 = $("#lon4").val().trim();
             var img4 = $("#img4").val().trim();
             formData.append('customer', customer);
             formData.append('userId', userId);
             formData.append('id', id);
-            formData.append('lat4', lat4);
-            formData.append('lon4', lon4);
+            formData.append('lat4', y);
+            formData.append('lon4', x);
             formData.append('img4', img4);
             formData.append('mark', 4);
             save(formData);
@@ -410,6 +402,17 @@
                     swal({
                         type: 'success',
                         html: '提交成功'
+                    });
+                }else if(data >0){
+                    $("#id").val(data);
+                    swal({
+                        type: 'success',
+                        html: '提交成功'
+                    });
+                }else{
+                    swal({
+                        type: 'error',
+                        html: '提交失败'
                     });
                 }
                 console.log(data);
@@ -442,30 +445,27 @@
         bm.addOverlay(marker);
         bm.panTo(ggPoint);
 
-        var convertor = new BMap.Convertor();
-        var pointArr = [];
-        pointArr.push(ggPoint);
-        convertor.translate(pointArr, 1, 5, function (data){
-            if(data.status === 0) {
-                var marker = new BMap.Marker(data.points[0]);
-                bm.addOverlay(marker);
-                var label = new BMap.Label("123",{offset:new BMap.Size(20,-10)});
-                marker.setLabel(label); //添加百度label
-                bm.setCenter(data.points[0]);
-            }
-        })
-
     }
 
     function getLocation() {
-        if (navigator.geolocation)
-        {
-        navigator.geolocation.getCurrentPosition(function (r) {
-                x = r.coords.longitude;
-                y = r.coords.latitude;
+        var geolocation = new BMap.Geolocation();
+        geolocation.enableSDKLocation();
+        geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                x = r.point.lng;
+                y = r.point.lat;
                 map("allmap1");
+                map("allmap2");
+                map("allmap3");
+                map("allmap4");
+            }
+            else {
+                swal({
+                    type:"warning",
+                    html:"获取坐标失败"
+                })
+            }
         });
-       }
     }
 
 </script>

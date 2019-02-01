@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(basePackages = "com.xingda")
 @SpringBootApplication
-@MapperScan("com.xingda.maintenance.mapper")
+@MapperScan("com.xingda.*.mapper")
 public class XingdaSpringbootApplication {
 
     public static void main(String[] args) {

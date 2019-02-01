@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class WorkOrder {
 
@@ -23,10 +25,10 @@ public class WorkOrder {
     String img2;
     String img3;
     String img4;
-    String time1;
-    String time2;
-    String time3;
-    String time4;
+    Date time1;
+    Date time2;
+    Date time3;
+    Date time4;
     byte status;
     String remark;
 
@@ -150,35 +152,35 @@ public class WorkOrder {
         this.img4 = img4;
     }
 
-    public String getTime1() {
+    public Date getTime1() {
         return time1;
     }
 
-    public void setTime1(String time1) {
+    public void setTime1(Date time1) {
         this.time1 = time1;
     }
 
-    public String getTime2() {
+    public Date getTime2() {
         return time2;
     }
 
-    public void setTime2(String time2) {
+    public void setTime2(Date time2) {
         this.time2 = time2;
     }
 
-    public String getTime3() {
+    public Date getTime3() {
         return time3;
     }
 
-    public void setTime3(String time3) {
+    public void setTime3(Date time3) {
         this.time3 = time3;
     }
 
-    public String getTime4() {
+    public Date getTime4() {
         return time4;
     }
 
-    public void setTime4(String time4) {
+    public void setTime4(Date time4) {
         this.time4 = time4;
     }
 
