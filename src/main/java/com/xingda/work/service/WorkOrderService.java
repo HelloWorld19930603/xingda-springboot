@@ -1,5 +1,7 @@
 package com.xingda.work.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xingda.utils.StringUtil;
 import com.xingda.work.domain.WorkOrder;
 import com.xingda.work.mapper.WorkOrderMapper;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,6 @@ public class WorkOrderService {
     }
 
     public List selectAll(Integer userId, String customer) {
-        return workOrderMapper.selectList(null);
+        return workOrderMapper.selectList(new QueryWrapper<WorkOrder>().lambda().eq(StringUtil.isNotEmpty(userId),WorkOrder::getUserId, userId).like(StringUtil.isNotEmpty(customer),WorkOrder::getCustomer, customer));
     }
 }

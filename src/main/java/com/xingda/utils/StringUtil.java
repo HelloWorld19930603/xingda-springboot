@@ -44,6 +44,9 @@ public class StringUtil {
         return str != null && str.length() > 0;
     }
 
+    public static boolean isNotEmpty(Object str) {
+        return str != null && str.toString().length() > 0;
+    }
 
     public static String makeFileName(){
         return "" + new Random().nextInt(1000)+ System.currentTimeMillis();

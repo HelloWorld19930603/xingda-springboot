@@ -50,18 +50,15 @@
         <div class="wrapper">
 
             <section class="search-area panel">
-                <div class="sa-ele">
-                    <label class="se-title">系列:</label>
-                    <select class="se-con" name="serise">
-                        <option value="-1">请选择</option>
-                        <!--通过js增加-->
-                    </select>
-                </div>
-                <div class="sa-ele">
-                    <label class="se-title">商品名称:</label>
-                    <input class="se-con" name="name"/>
-                </div>
 
+                <div class="sa-ele">
+                    <label class="se-title">员工编号:</label>
+                    <input class="se-con" name="userId"/>
+                </div>
+                <div class="sa-ele">
+                    <label class="se-title">客户名称:</label>
+                    <input class="se-con" name="customer"/>
+                </div>
                 <div class="sa-ele">
                     <button class="search-action">搜索</button>
                     <button class="reset-action">重置</button>
@@ -169,7 +166,7 @@
                 {
                     key: 'userId',
                     remind: 'the pic',
-                    width: '120px',
+                    width: '60px',
                     align: 'center',
                     text: '员工编号',
                     // 使用函数返回 dom node
@@ -181,7 +178,7 @@
                     key: 'customer',
                     remind: 'the title',
                     align: 'center',
-                    width: '120px',
+                    width: '60px',
                     text: '客户名称',
                     sorting: '',
                     // 使用函数返回 dom node
@@ -192,7 +189,7 @@
                 }, {
                     key: 'img1',
                     remind: 'the pic',
-                    width: '110px',
+                    width: '100px',
                     align: 'center',
                     text: '缩略图',
                     // 使用函数返回 dom node
@@ -202,17 +199,92 @@
                             +'</a>';
                         return picNode;
                     }
-                },,{
+                },{
                     key: 'time1',
                     remind: 'the title',
                     align: 'center',
-                    width: '120px',
-                    text: '时间1',
+                    width: '80px',
+                    text: '出发时间',
                     sorting: '',
                     // 使用函数返回 dom node
                     template: function(time1, rowObject) {
 
                         return time1;
+                    }
+                }, {
+                    key: 'img2',
+                    remind: 'the pic',
+                    width: '100px',
+                    align: 'center',
+                    text: '缩略图',
+                    // 使用函数返回 dom node
+                    template: function(img2, rowObject) {
+                        var picNode= '<a href="'+img2+'" data-fancybox data-caption="">'+
+                            '<img src="'+img2+'" width="100px" height="68px" alt="" />'
+                            +'</a>';
+                        return picNode;
+                    }
+                },{
+                    key: 'time2',
+                    remind: 'the title',
+                    align: 'center',
+                    width: '80px',
+                    text: '到达时间',
+                    sorting: '',
+                    // 使用函数返回 dom node
+                    template: function(time2, rowObject) {
+
+                        return time2;
+                    }
+                }, {
+                    key: 'img3',
+                    remind: 'the pic',
+                    width: '100px',
+                    align: 'center',
+                    text: '缩略图',
+                    // 使用函数返回 dom node
+                    template: function(img3, rowObject) {
+                        var picNode= '<a href="'+img3+'" data-fancybox data-caption="">'+
+                            '<img src="'+img3+'" width="100px" height="68px" alt="" />'
+                            +'</a>';
+                        return picNode;
+                    }
+                },{
+                    key: 'time3',
+                    remind: 'the title',
+                    align: 'center',
+                    width: '80px',
+                    text: '离开时间',
+                    sorting: '',
+                    // 使用函数返回 dom node
+                    template: function(time3, rowObject) {
+
+                        return time3;
+                    }
+                }, {
+                    key: 'img4',
+                    remind: 'the pic',
+                    width: '100px',
+                    align: 'center',
+                    text: '缩略图',
+                    // 使用函数返回 dom node
+                    template: function(img4, rowObject) {
+                        var picNode= '<a href="'+img4+'" data-fancybox data-caption="">'+
+                            '<img src="'+img4+'" width="100px" height="68px" alt="" />'
+                            +'</a>';
+                        return picNode;
+                    }
+                },{
+                    key: 'time4',
+                    remind: 'the title',
+                    align: 'center',
+                    width: '80px',
+                    text: '结束时间',
+                    sorting: '',
+                    // 使用函数返回 dom node
+                    template: function(time4, rowObject) {
+
+                        return time4;
                     }
                 },{
                     key: 'status',
@@ -223,13 +295,6 @@
                     template: function(status, rowObject){
                         return status;
                     }
-                },{
-                    key: 'remark',
-                    remind: 'the info',
-                    text: '备注',
-                    isShow: true,
-                    width: '80px',
-                    align: 'center'
                 },{
                     key: 'action',
                     remind: 'the action',
@@ -274,8 +339,8 @@
         // 绑定搜索事件
         document.querySelector('.search-action').addEventListener('click', function () {
             var _query = {
-                name: document.querySelector('[name="name"]').value,
-                serise: document.querySelector('[name="serise"]').value,
+                userId: document.querySelector('[name="userId"]').value,
+                customer: document.querySelector('[name="customer"]').value,
                 index: 1
             };
             table.GM('setQuery', _query, function(){
@@ -285,8 +350,8 @@
 
         // 绑定重置
         document.querySelector('.reset-action').addEventListener('click', function () {
-            document.querySelector('[name="name"]').value = '';
-            document.querySelector('select[name="serise"]').value = '-1';
+            document.querySelector('[name="userId"]').value = '';
+            document.querySelector('select[name="customer"]').value = '';
         });
 
         $("#editable-sample_new").click(function () {
