@@ -461,17 +461,9 @@
         if (navigator.geolocation)
         {
         navigator.geolocation.getCurrentPosition(function (r) {
-            if(this.getStatus() == BMAP_STATUS_SUCCESS){
                 x = r.coords.longitude;
                 y = r.coords.latitude;
                 map("allmap1");
-            }
-            else {
-                swal({
-                    type:"warning",
-                    html:"获取坐标失败"
-                })
-            }
         });
        }
     }
