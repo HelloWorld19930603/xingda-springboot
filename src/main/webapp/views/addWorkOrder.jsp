@@ -442,17 +442,29 @@
         bm.addOverlay(marker);
         bm.panTo(ggPoint);
 
+        var convertor = new BMap.Convertor();
+        var pointArr = [];
+        pointArr.push(ggPoint);
+        convertor.translate(pointArr, 1, 5, function (data){
+            if(data.status === 0) {
+                var marker = new BMap.Marker(data.points[0]);
+                bm.addOverlay(marker);
+                var label = new BMap.Label("123",{offset:new BMap.Size(20,-10)});
+                marker.setLabel(label); //添加百度label
+                bm.setCenter(data.points[0]);
+            }
+        })
+
     }
 
     function getLocation() {
-        var geolocation = new BMap.Geolocation();
-        geolocation.enableSDKLocation();
-        geolocation.getCurrentPosition(function(r){
+        if (navigator.geolocation)
+        {
+        navigator.geolocation.getCurrentPosition(function (r) {
             if(this.getStatus() == BMAP_STATUS_SUCCESS){
                 x = r.point.lng;
                 y = r.point.lat;
                 map("allmap1");
-
             }
             else {
                 swal({
@@ -461,6 +473,7 @@
                 })
             }
         });
+       }
     }
 
 </script>
