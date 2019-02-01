@@ -22,7 +22,7 @@
   <script src="<%=path%>/js/html5shiv.js"></script>
   <script src="<%=path%>/js/respond.min.js"></script>
   <![endif]-->
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
+
 </head>
 <style>
     .button-next{
@@ -219,7 +219,7 @@
 <script src="<%=path%>/js/sweetalert/es6-promise.min.js"></script>
 <!--common scripts for all pages-->
 <script src="<%=path%>/js/scripts.js"></script>
-
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
 </body>
 </html>
 <script type="text/javascript">
@@ -426,48 +426,41 @@
 
     // 百度地图API功能
     //GPS坐标
-    var x = 116.32715863448607;
-    var y = 39.990912172420714;
+    var x ;
+    var y ;
+    getLocation();
 
-    var bm1,bm2,bm3,bm4;
-    bm1 = map(x,y,"allmap1");
-    bm2 = map(x,y,"allmap2");
-    bm3 = map(x,y,"allmap3");
-    bm4 = map(x,y,"allmap4");
-    function map(x,y,map) {
+
+    function map(map) {
+
         var ggPoint = new BMap.Point(x,y);
         //地图初始化
         var bm = new BMap.Map(map);
         bm.centerAndZoom(ggPoint, 15);
         bm.addControl(new BMap.NavigationControl());
+        var marker = new BMap.Marker(ggPoint);
+        bm.addOverlay(marker);
+        bm.panTo(ggPoint);
+
+    }
+
+    function getLocation() {
         var geolocation = new BMap.Geolocation();
+        geolocation.enableSDKLocation();
         geolocation.getCurrentPosition(function(r){
             if(this.getStatus() == BMAP_STATUS_SUCCESS){
-                var mk = new BMap.Marker(r.point);
-                bm.addOverlay(mk);
-                bm.panTo(r.point);
-               // alert('您的位置：'+r.point.lng+','+r.point.lat);
+                x = r.point.lng;
+                y = r.point.lat;
+                map("allmap1");
+
             }
             else {
-                alert('failed'+this.getStatus());
+                swal({
+                    type:"warning",
+                    html:"获取坐标失败"
+                })
             }
         });
-
-        return bm;
     }
 
-    function getLocation(){
-        if (navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(function (position) {
-                x = position.coords.latitude;
-                y = position.coords.longitude;
-                alert(x+","+y)
-            });
-        }else{
-            swal({
-                type: 'warning',
-                html: '游览器不支持获取经纬度'
-            });
-        }
-    }
 </script>
