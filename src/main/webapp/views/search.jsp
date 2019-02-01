@@ -119,7 +119,7 @@
                 录入 <i class="fa fa-plus"></i>
             </button>
           <button id="editable-sample_new2" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
-            创建工单 <i class="fa fa-plus"></i>
+            查询工单 <i class="fa fa-plus"></i>
           </button>
         </div>
     </div>
@@ -197,7 +197,7 @@
           window.location.href = "<%=context%>/input";
       })
     $("#editable-sample_new2").click(function () {
-      window.location.href = "<%=context%>/genergy/addWorkOrder";
+      window.location.href = "<%=context%>/genergy/getWorkOrder";
     })
   })();
 
