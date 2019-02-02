@@ -321,7 +321,7 @@
 
 
     function editRowData(rowData){
-        window.location.href = "addWorkOrder?id="+rowData.id;
+        window.location.href = "<%=context%>/genergy/addWorkOrder?id="+rowData.id;
     }
 
 

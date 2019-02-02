@@ -26,4 +26,8 @@ public class WorkOrderService {
     public List selectAll(Integer userId, String customer) {
         return workOrderMapper.selectList(new QueryWrapper<WorkOrder>().lambda().eq(StringUtil.isNotEmpty(userId),WorkOrder::getUserId, userId).like(StringUtil.isNotEmpty(customer),WorkOrder::getCustomer, customer));
     }
+
+    public WorkOrder selectById(Integer id) {
+        return workOrderMapper.selectById(id);
+    }
 }

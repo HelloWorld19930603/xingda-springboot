@@ -7,6 +7,7 @@ import com.xingda.work.domain.WorkOrder;
 import com.xingda.work.service.WorkOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,11 @@ public class WorkOrderController {
     WorkOrderService workOrderService;
 
     @RequestMapping(value = "/addWorkOrder", method = RequestMethod.GET)
-    public String addWrokOrder() {
+    public String addWrokOrder(Integer id, Model model) {
+        if(id != null){
+            WorkOrder workOrder = workOrderService.selectById(id);
+            model.addAttribute("order",workOrder);
+        }
         return "addWorkOrder";
     }
 

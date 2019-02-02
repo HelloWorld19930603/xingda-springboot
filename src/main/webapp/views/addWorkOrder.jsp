@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="/commons/path.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,13 +66,13 @@
                                     <div class="form-group">
                                         <label class="col-md-2 col-sm-2 control-label">客户名称</label>
                                         <div class="col-md-6 col-sm-6">
-                                            <input type="text" id="customer" placeholder="客户名称" class="form-control">
+                                            <input type="text" id="customer" placeholder="客户名称" class="form-control" value="${order.customer}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 col-sm-2 control-label">员工编号</label>
                                         <div class="col-md-6 col-sm-6">
-                                            <input type="text" id="userId" placeholder="员工编号" class="form-control" value="">
+                                            <input type="text" id="userId" placeholder="员工编号" class="form-control" value="" value="${order.userId}">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -84,7 +85,12 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label span3"></label>
                                         <div class="col-md-6">
-                                            <img  id="img1" src="<%=path%>/images/default.png" width="100px" height="100px">
+                                            <c:if test="${not empty order.img1 }">
+                                                <img  id="img1" src="${order.img1}" width="100px" height="100px">
+                                            </c:if>
+                                            <c:if test="${order.img1 eq null}">
+                                                <img  id="img1" src="<%=path%>/images/default.png" width="100px" height="100px">
+                                            </c:if>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -113,7 +119,12 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label span3"></label>
                                         <div class="col-md-6">
-                                            <img  id="img2" src="<%=path%>/images/default.png" width="100px" height="100px">
+                                            <c:if test="${not empty order.img2 }">
+                                                <img  id="img2" src="${order.img2}" width="100px" height="100px">
+                                            </c:if>
+                                            <c:if test="${order.img2 eq null}">
+                                                <img  id="img2" src="<%=path%>/images/default.png" width="100px" height="100px">
+                                            </c:if>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -142,7 +153,12 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label span3"></label>
                                         <div class="col-md-6">
-                                            <img  id="img3" src="<%=path%>/images/default.png" width="100px" height="100px">
+                                            <c:if test="${not empty order.img3 }">
+                                                <img  id="img3" src="${order.img3}" width="100px" height="100px">
+                                            </c:if>
+                                            <c:if test="${order.img3 eq null}">
+                                                <img  id="img3" src="<%=path%>/images/default.png" width="100px" height="100px">
+                                            </c:if>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -171,7 +187,12 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label span3"></label>
                                         <div class="col-md-6">
-                                            <img  id="img4" src="<%=path%>/images/default.png" width="100px" height="100px">
+                                            <c:if test="${not empty order.img4 }">
+                                                <img  id="img4" src="${order.img1}" width="100px" height="100px">
+                                            </c:if>
+                                            <c:if test="${order.img4 eq null}">
+                                                <img  id="img4" src="<%=path%>/images/default.png" width="100px" height="100px">
+                                            </c:if>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -434,7 +455,7 @@
     getLocation();
 
 
-    function map(map) {
+    function map(x,y,map) {
 
         var ggPoint = new BMap.Point(x,y);
         //地图初始化
@@ -454,10 +475,30 @@
             if(this.getStatus() == BMAP_STATUS_SUCCESS){
                 x = r.point.lng;
                 y = r.point.lat;
-                map("allmap1");
-                map("allmap2");
-                map("allmap3");
-                map("allmap4");
+                <c:if test="${not empty order.lon1 and not empty order.lat1 }">
+                map(${order.lon1},${order.lat1},"allmap1");
+                </c:if>
+                <c:if test="${order.lon1 eq null and order.lat1 eq null}">
+                map(x,y,"allmap1");
+                </c:if>
+                <c:if test="${not empty order.lon2  and not empty order.lat2 }">
+                map(${order.lon2},${order.lat2},"allmap2");
+                </c:if>
+                <c:if test="${order.lon2 eq null and   order.lat2 eq null}">
+                map(x,y,"allmap2");
+                </c:if>
+                <c:if test="${not empty  order.lon3  and not empty  order.lat3 }">
+                map(${order.lon3},${order.lat3},"allmap3");
+                </c:if>
+                <c:if test="${order.lon3 eq null and order.lat3 eq null}">
+                map(x,y,"allmap3");
+                </c:if>
+                <c:if test="${not empty  order.lon4  and not empty  order.lat4 }">
+                map(${order.lon4},${order.lat4},"allmap4");
+                </c:if>
+                <c:if test="${order.lon4 eq null and order.lat4 eq null}">
+                map(x,y,"allmap4");
+                </c:if>
             }
             else {
                 swal({
