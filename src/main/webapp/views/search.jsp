@@ -118,9 +118,9 @@
             <button id="editable-sample_new" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
                 录入 <i class="fa fa-plus"></i>
             </button>
-          <button id="editable-sample_new2" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
+<%--          <button id="editable-sample_new2" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
             查询工单 <i class="fa fa-plus"></i>
-          </button>
+          </button>--%>
         </div>
     </div>
     <!-- page heading end-->
@@ -154,6 +154,7 @@
 <link rel="stylesheet" href="<%=path%>/js/sweetalert/sweetalert2.min.css">
 <!-- IE support -->
 <script src="<%=path%>/js/sweetalert/es6-promise.min.js"></script>
+<script src="//g.alicdn.com/dingding/dingtalk-jsapi/2.0.57/dingtalk.open.js"></script>
 </body>
 </html>
 
@@ -203,4 +204,18 @@
 
 
 
+  dd.ready(function() {
+    // dd.ready参数为回调函数，在环境准备就绪时触发，jsapi的调用需要保证在该回调函数触发后调用，否则无效。
+    dd.runtime.permission.requestAuthCode({
+      corpId: "ding3b3dcea5f0fbedba35c2f4657eb6378f",
+      onSuccess: function(result) {
+        /*{
+            code: 'hYLK98jkf0m' //string authCode
+        }*/
+        alert(result)
+      },
+      onFail : function(err) {}
+
+    });
+  });
 </script>
