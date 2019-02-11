@@ -197,9 +197,7 @@
       $("#editable-sample_new").click(function () {
           window.location.href = "<%=context%>/input";
       })
-    $("#editable-sample_new2").click(function () {
-      window.location.href = "<%=context%>/genergy/getWorkOrder";
-    })
+
   })();
 
 
