@@ -212,7 +212,7 @@
         /*{
             code: 'hYLK98jkf0m' //string authCode
         }*/
-        alert(result)
+        alert(result.code)
       },
       onFail : function(err) {}
 
