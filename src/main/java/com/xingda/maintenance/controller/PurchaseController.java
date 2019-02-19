@@ -1,8 +1,10 @@
 package com.xingda.maintenance.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.taobao.api.ApiException;
 import com.xingda.maintenance.domain.PurchaseInfo;
 import com.xingda.maintenance.service.PurchaseInfoService;
+import com.xingda.utils.DingTalkUtil;
 import com.xingda.utils.KdniaoTrackQueryAPI;
 import com.xingda.utils.SqlUtils;
 import com.xingda.utils.StringUtil;
@@ -28,8 +30,10 @@ public class PurchaseController {
     }
     @RequestMapping(value = "input",method = RequestMethod.POST)
     @ResponseBody
-    public Object input(PurchaseInfo purchaseInfo){
+    public Object input(PurchaseInfo purchaseInfo,String code,Model model) throws ApiException {
         purchaseInfoService.insertOne(purchaseInfo);
+        System.out.println(code+"--"+ DingTalkUtil.getUserId(code));
+        model.addAttribute("code",code);
         return 0;
     }
 

@@ -23,7 +23,9 @@
     <![endif]-->
 </head>
 <style>
-
+    .table-div{
+        -webkit-overflow-scrolling: touch;
+    }
 
 </style>
 <body class="sticky-header">
@@ -56,8 +58,8 @@
                     <input class="se-con" name="userId"/>
                 </div>
                 <div class="sa-ele">
-                    <label class="se-title">客户名称:</label>
-                    <input class="se-con" name="customer"/>
+                    <label class="se-title">员工名称:</label>
+                    <input class="se-con" name="userName"/>
                 </div>
                 <div class="sa-ele">
                     <button class="search-action">搜索</button>
@@ -125,7 +127,7 @@
             // ajax_url 将在v2.6.0以上版本废弃，请不要再使用
             // ,ajax_url: 'http://www.lovejavascript.com/blogManager/getBlogList'
             ,ajax_data: function () {
-                return '/genergy/getWorkOrder';
+                return '<%=context%>/genergy/getWork';
             }
             // ,firstLoading: false // 初始渲染时是否加载数据
             ,ajax_type: 'POST'
@@ -175,125 +177,65 @@
                         return userId;
                     }
                 },{
-                    key: 'customer',
+                    key: 'userName',
                     remind: 'the title',
                     align: 'center',
                     width: '60px',
-                    text: '客户名称',
+                    text: '员工名称',
                     sorting: '',
                     // 使用函数返回 dom node
-                    template: function(customer, rowObject) {
+                    template: function(userName, rowObject) {
 
-                        return customer;
+                        return userName;
                     }
                 }, {
-                    key: 'img1',
+                    key: 'name',
                     remind: 'the pic',
                     width: '100px',
                     align: 'center',
-                    text: '缩略图',
+                    text: '任务',
                     // 使用函数返回 dom node
-                    template: function(img1, rowObject) {
-                        var picNode= '<a href="'+img1+'" data-fancybox data-caption="">'+
-                            '<img src="'+img1+'" width="100px" height="68px" alt="" />'
-                            +'</a>';
-                        return picNode;
+                    template: function(name, rowObject) {
+
+                        return name;
                     }
                 },{
-                    key: 'time1',
+                    key: 'createTime',
                     remind: 'the title',
                     align: 'center',
                     width: '80px',
-                    text: '出发时间',
+                    text: '创建时间',
                     sorting: '',
                     // 使用函数返回 dom node
-                    template: function(time1, rowObject) {
+                    template: function(createTime, rowObject) {
 
-                        return time1;
+                        return dateFtt("yyyy-MM-dd hh:mm:ss",new Date(createTime))
                     }
                 }, {
-                    key: 'img2',
+                    key: 'remark',
                     remind: 'the pic',
                     width: '100px',
                     align: 'center',
-                    text: '缩略图',
+                    text: '备注',
                     // 使用函数返回 dom node
-                    template: function(img2, rowObject) {
-                        var picNode= '<a href="'+img2+'" data-fancybox data-caption="">'+
-                            '<img src="'+img2+'" width="100px" height="68px" alt="" />'
-                            +'</a>';
-                        return picNode;
-                    }
-                },{
-                    key: 'time2',
-                    remind: 'the title',
-                    align: 'center',
-                    width: '80px',
-                    text: '到达时间',
-                    sorting: '',
-                    // 使用函数返回 dom node
-                    template: function(time2, rowObject) {
+                    template: function(remark, rowObject) {
 
-                        return time2;
-                    }
-                }, {
-                    key: 'img3',
-                    remind: 'the pic',
-                    width: '100px',
-                    align: 'center',
-                    text: '缩略图',
-                    // 使用函数返回 dom node
-                    template: function(img3, rowObject) {
-                        var picNode= '<a href="'+img3+'" data-fancybox data-caption="">'+
-                            '<img src="'+img3+'" width="100px" height="68px" alt="" />'
-                            +'</a>';
-                        return picNode;
-                    }
-                },{
-                    key: 'time3',
-                    remind: 'the title',
-                    align: 'center',
-                    width: '80px',
-                    text: '离开时间',
-                    sorting: '',
-                    // 使用函数返回 dom node
-                    template: function(time3, rowObject) {
-
-                        return time3;
-                    }
-                }, {
-                    key: 'img4',
-                    remind: 'the pic',
-                    width: '100px',
-                    align: 'center',
-                    text: '缩略图',
-                    // 使用函数返回 dom node
-                    template: function(img4, rowObject) {
-                        var picNode= '<a href="'+img4+'" data-fancybox data-caption="">'+
-                            '<img src="'+img4+'" width="100px" height="68px" alt="" />'
-                            +'</a>';
-                        return picNode;
-                    }
-                },{
-                    key: 'time4',
-                    remind: 'the title',
-                    align: 'center',
-                    width: '80px',
-                    text: '结束时间',
-                    sorting: '',
-                    // 使用函数返回 dom node
-                    template: function(time4, rowObject) {
-
-                        return time4;
+                        return remark;
                     }
                 },{
                     key: 'status',
                     remind: 'the type',
-                    text: '状态码',
+                    text: '状态',
                     width: '80px',
                     align: 'center',
                     template: function(status, rowObject){
-                        return status;
+                        if(status == 0){
+                            return "未开始";
+                        }else if(status == 1){
+                            return "进行中";
+                        }else if(status == 2){
+                            return "已完结";
+                        }
                     }
                 },{
                     key: 'action',
@@ -303,8 +245,11 @@
                     text: '<span style="color: red">操作</span>',
                     // 直接返回 htmlString
                     template: function (action,rowObjct) {
-                        var htmlString = '<span class="plugin-action" gm-click="editRowData">编辑</span>';
-
+                        var htmlString = '';
+                        if(rowObjct.status != 0)
+                         htmlString = '<span class="plugin-action" gm-click="editRowData">查看</span>';
+                        if(rowObjct.status != 2)
+                        htmlString += '<span class="plugin-action" gm-click="editRowData2">签到</span>'
                         return htmlString;
                     }
                 }
@@ -321,14 +266,15 @@
 
 
     function editRowData(rowData){
-        window.location.href = "<%=context%>/genergy/addWorkOrder?id="+rowData.id;
+        window.location.href = "<%=context%>/genergy/getOrder?workId="+rowData.id;
     }
 
-
-
-    /**
-     * 渲染用户级别
-     */
+    function editRowData2(rowData){
+        if(code != null)
+            window.location.href = "<%=context%>/genergy/addOrder?workId="+rowData.id+"&code="+code;
+        else
+            window.location.href = "<%=context%>/genergy/addOrder?workId="+rowData.id;
+    }
 
 
     /**
@@ -340,7 +286,7 @@
         document.querySelector('.search-action').addEventListener('click', function () {
             var _query = {
                 userId: document.querySelector('[name="userId"]').value,
-                customer: document.querySelector('[name="customer"]').value,
+                userName: document.querySelector('[name="userName"]').value,
                 index: 1
             };
             table.GM('setQuery', _query, function(){
@@ -351,11 +297,11 @@
         // 绑定重置
         document.querySelector('.reset-action').addEventListener('click', function () {
             document.querySelector('[name="userId"]').value = '';
-            document.querySelector('select[name="customer"]').value = '';
+            document.querySelector('[name="userName"]').value = '';
         });
 
         $("#editable-sample_new").click(function () {
-            window.open("addWorkOrder");
+            window.open("addWork");
         })
     })();
 
@@ -377,6 +323,13 @@
         loop     : true
     });
 
-
+    var code = null;
+    dd.ready(function() {
+        dd.runtime.permission.requestAuthCode({
+            corpId: "ding3b3dcea5f0fbedba35c2f4657eb6378f", // 企业id
+            onSuccess: function (info) {
+                code = info.code // 通过该免登授权码可以获取用户身份
+            }});
+    });
     //  $.fancybox.open('<div class="message"><h2>Hello!</h2><p>You are awesome!</p></div>');
 </script>

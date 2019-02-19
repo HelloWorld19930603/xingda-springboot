@@ -148,6 +148,8 @@
 <script src="<%=path%>/js/date/moment.min.js"></script>
 
 <script src="<%=path%>/js/date/datepicker.all.js"></script>
+
+<script src="//g.alicdn.com/dingding/dingtalk-jsapi/2.0.57/dingtalk.open.js"></script>
 </body>
 </html>
 
@@ -348,4 +350,12 @@
 
   });
 
+  var code;
+  dd.ready(function() {
+    dd.runtime.permission.requestAuthCode({
+      corpId: "ding3b3dcea5f0fbedba35c2f4657eb6378f", // 企业id
+      onSuccess: function (info) {
+        code = info.code // 通过该免登授权码可以获取用户身份
+      }});
+  });
 </script>

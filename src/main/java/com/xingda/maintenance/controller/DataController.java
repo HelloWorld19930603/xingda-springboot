@@ -1,58 +1,59 @@
 package com.xingda.maintenance.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.xingda.utils.SqlUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.taobao.api.ApiException;
+import com.xingda.utils.DingTalkUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
-@RequestMapping("data")
 public class DataController {
 
-    @Autowired
-    SqlUtils sqlUtil;
-
-    @RequestMapping("hello1")
-    @ResponseBody
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        req.setCharacterEncoding("UTF-8");
-        String remark = req.getParameter("remark");
-        if (remark == null) {
-            remark = "";
-        }
-        String sql = "select * from info where id = (select max(id) from info where name like '%" + remark + "%' or product like '%" +
-                remark + "%' or project like '%" + remark + "%')";
-        JSONArray jsonArray = sqlUtil.search(sql);
-        resp.getWriter().print(jsonArray);
+    @RequestMapping(value = "demo", method = RequestMethod.GET)
+    public String demo() {
+        return "demo";
     }
 
-    @RequestMapping("hello2")
+    @RequestMapping("getAccessToken")
     @ResponseBody
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
-        req.setCharacterEncoding("UTF-8");
-        String remark = req.getParameter("remark");
-        if (remark == null) {
-            remark = "";
+    public Map getAccessToken()  {
+        try {
+            Map map = new HashMap<String,String>();
+            map.put("token", DingTalkUtil.getAccessToken());
+            return map;
+        } catch (ApiException e) {
+            e.printStackTrace();
         }
-        String sql = "select * from info where id = (select max(id) from info where name like '%" + remark + "%' or product like '%" +
-                remark + "%' or project like '%" + remark + "%')";
-        JSONArray jsonArray = sqlUtil.search(sql);
-        JSONObject jsonObject = (JSONObject) jsonArray.get(0);
-
-        req.setAttribute("info", jsonObject);
-        resp.getWriter().print(jsonObject);
+        return null;
     }
 
+    @RequestMapping("getUserId")
+    @ResponseBody
+    public Map getUserId(String code) {
+        try {
+            Map map = new HashMap<String,String>();
+            map.put("userId", DingTalkUtil.getUserId(code));
+            return map;
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-    @RequestMapping("views")
-    public String views(){
-        return "cart";
+    @RequestMapping("getUser")
+    @ResponseBody
+    public Map getUser(String code) {
+        try {
+            Map map = new HashMap<String,String>();
+            map.put("user", DingTalkUtil.getUser(code));
+            return map;
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
