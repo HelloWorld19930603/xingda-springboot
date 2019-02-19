@@ -62,9 +62,14 @@
                                     <legend></legend>
                                     <input type="hidden" value="${workId}" id="workId">
                                     <div class="form-group">
-                                        <label class="col-md-2 col-sm-2 control-label">签到说明</label>
-                                        <div class="col-md-6 col-sm-6">
-                                            <input type="text" id="remark" placeholder="签到说明" class="form-control">
+                                        <label class="col-md-2 col-sm-2 control-label">客户名称</label>
+                                        <div class="col-lg-6">
+                                            <select class="col-md-2 col-sm-2 form-control m-bot15" id="name" placeholder="任务名称">
+                                                <option value="1"></option>
+                                            </select>
+                                        </div>
+                                        <div id="editable-sample_new" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
+                                            新增 <i class="fa fa-plus"></i>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -136,6 +141,44 @@
 
     //html5实现图片预览功能
     $(function () {
+
+        getCustomer();
+        $("#editable-sample_new").click(function () {
+
+            swal({
+                title: '录入客户信息',
+                html:
+                    '<input id="cname" class="swal2-input" autofocus placeholder="客户名称">' +
+                    '<input id="phone" class="swal2-input" placeholder="客户电话">'+
+                    '<input id="address" class="swal2-input" placeholder="客户地址">'+
+                    '                                        <select class="col-md-2 col-sm-2 form-control m-bot15" id="type" >\n' +
+                    '                                            <option value="1">公司</option><option value="2">个人</option>\n' +
+                    '                                        </select>'+
+                    '<input id="remark" class="swal2-input" placeholder="备注">',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '确认',
+                cancelButtonText:'取消',
+                showCancelButton: true,
+                preConfirm: function() {
+                    return new Promise(function(resolve) {
+                        resolve([
+                            $('#cname').val(),
+                            $('#phone').val(),
+                            $('#address').val(),
+                            $('#type').val(),
+                            $('#remark').val()
+                        ]);
+                    });
+                }
+            }).then(function(result) {
+                if (result) {
+
+                    alert(result[0])
+                }
+            })
+        });
+
+
         $("#file1").change(function (e) {
             var file = e.target.files[0] || e.dataTransfer.files[0];
             $('#photoCover').val(document.getElementById("file1").files[0].name);
@@ -297,4 +340,26 @@
         });
     }
 
+    function getCustomer() {
+        $.ajax({
+            url: "<%=context%>/genergy/getCustomer",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log(data);
+                var typeSelect = document.querySelector('select[id="name"]');
+                for(var k in data){
+                    var option = document.createElement('option');
+                    option.value = data[k].id;
+                    option.innerText = data[k].name;
+                    typeSelect.appendChild(option);
+                }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
 </script>

@@ -61,17 +61,10 @@
                                 <fieldset title="新建任务">
                                     <legend></legend>
                                     <input type="hidden" value="" id="id">
-                                    <input type="hidden" value="${order.lon1}" id="lon1">
-                                    <input type="hidden" value="${order.lat2}" id="lat1">
                                     <div class="form-group">
-                                        <label class="col-md-2 col-sm-2 control-label">客户名称</label>
-                                        <div class="col-lg-6">
-                                        <select class="col-md-2 col-sm-2 form-control m-bot15" id="name" placeholder="任务名称">
-                                            <option value="1"></option>
-                                        </select>
-                                        </div>
-                                        <div id="editable-sample_new" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
-                                            新增 <i class="fa fa-plus"></i>
+                                        <label for="name" class="control-label col-lg-3">任务名称</label>
+                                        <div class="col-lg-5">
+                                            <input class="form-control " id="name" name="name" type="text" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -134,37 +127,7 @@
             save(formData);
         });
 
-        getCustomer();
 
-        $("#editable-sample_new").click(function () {
-
-            swal({
-                title: '录入客户信息',
-                html:
-                    '<input id="name" class="swal2-input" autofocus placeholder="客户名称">' +
-                    '<input id="phone" class="swal2-input" placeholder="客户电话">'+
-                    '<input id="address" class="swal2-input" placeholder="客户地址">'+
-                    '                                        <select class="col-md-2 col-sm-2 form-control m-bot15" id="type" >\n' +
-                    '                                            <option value="1">公司</option><option value="2">个人</option>\n' +
-                    '                                        </select>'+
-                    '<input id="remark" class="swal2-input" placeholder="备注">',
-                preConfirm: function() {
-                    return new Promise(function(resolve) {
-                            resolve([
-                                $('#name').val(),
-                                $('#phone').val(),
-                                $('#address').val(),
-                                $('#type').val(),
-                                $('#remark').val()
-                            ]);
-                    });
-                }
-            }).then(function(result) {
-                if (result) {
-                    swal(JSON.stringify(result));
-                }
-            })
-        });
     })
     //方式一 Jquery实现
     function save(formData) {
@@ -212,28 +175,7 @@
         });
     }
 
-    function getCustomer(formData) {
-        $.ajax({
-            url: "<%=context%>/genergy/getCustomer",
-            type: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                console.log(data);
-                var typeSelect = document.querySelector('select[id="name"]');
-                for(var k in data){
-                    var option = document.createElement('option');
-                    option.value = data[k].id;
-                    option.innerText = data[k].name;
-                    typeSelect.appendChild(option);
-                }
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    }
+
 
     var code;
     dd.ready(function() {
