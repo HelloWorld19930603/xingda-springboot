@@ -3,10 +3,12 @@ package com.xingda.maintenance.controller;
 import com.taobao.api.ApiException;
 import com.xingda.utils.DingTalkUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +16,8 @@ import java.util.Map;
 public class DataController {
 
     @RequestMapping(value = "demo", method = RequestMethod.GET)
-    public String demo() {
+    public String demo(Model model, HttpServletRequest request) throws ApiException {
+        model.addAttribute("config",DingTalkUtil.getConfig(request));
         return "demo";
     }
 

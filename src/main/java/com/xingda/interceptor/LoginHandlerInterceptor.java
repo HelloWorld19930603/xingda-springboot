@@ -2,6 +2,7 @@ package com.xingda.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xingda.utils.DingTalkUtil;
+import com.xingda.utils.StringUtil;
 import com.xingda.work.domain.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -26,7 +27,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
             if(code == null){
                 code = request.getParameter("code");
             }
-            if(code != null){
+            if(StringUtil.isNotEmpty(code)){
                 String u = DingTalkUtil.getUser(code);
                 JSONObject jsonObject = JSONObject.parseObject(u);
                 user = new User();

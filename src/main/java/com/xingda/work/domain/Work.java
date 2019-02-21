@@ -16,7 +16,6 @@ public class Work {
     String remark;
     byte status;
     Date createTime;
-    int customerId;
 
     public int getId() {
         return id;
@@ -74,11 +73,5 @@ public class Work {
         this.status = status;
     }
 
-    public int getCustomerId() {
-        return customerId;
-    }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
 }

@@ -129,14 +129,14 @@
         })
     });
     $("#bt5").click(function () {
-        alert("result = "+result);
+        alert("result = "+r);
     });
     dd.config({
-        agentId: '227218743', // 必填，微应用ID
-        corpId: 'ding3b3dcea5f0fbedba35c2f4657eb6378f',//必填，企业ID
-        timeStamp: new Date().getTime(), // 必填，生成签名的时间戳
-        nonceStr: '123', // 必填，生成签名的随机串
-        signature: '123', // 必填，签名
+        agentId: '${config.agentId}', // 必填，微应用ID
+        corpId: '${config.corpId}',//必填，企业ID
+        timeStamp: ${config.timeStamp}, // 必填，生成签名的时间戳
+        nonceStr: '${config.nonceStr}', // 必填，生成签名的随机串
+        signature: '${config.signature}', // 必填，签名
         type:0,   //选填。0表示微应用的jsapi,1表示服务窗的jsapi；不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
         jsApiList : [
             'runtime.info',
@@ -145,7 +145,7 @@
             'device.notification.alert',
             'device.notification.prompt',
             'biz.ding.post',
-            'device.geolocation.get'
+            'device.geolocation.get',
         ] // 必填，需要使用的jsapi列表，注意：不要带dd。
     });
 
@@ -182,4 +182,43 @@
         },
         onFail : function(err) {}
     });
+
+
+
+    /*if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(locationSuccess, locationError,{
+            // 指示浏览器获取高精度的位置，默认为false
+            enableHighAcuracy: true,
+            // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+            timeout: 10000,
+            // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+            maximumAge: 3000
+        });
+    }else{
+        alert("Your browser does not support Geolocation!");
+    }
+
+    function locationError(error){
+        switch(error.code) {
+            case error.TIMEOUT:
+                alert("A timeout occured! Please try again!");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert('We can\'t detect your location. Sorry!');
+                break;
+            case error.PERMISSION_DENIED:
+                alert('Please allow geolocation access for this to work.');
+                break;
+            case error.UNKNOWN_ERROR:
+                alert('An unknown error occured!');
+                break;
+        }
+    }
+
+
+    function locationSuccess(position){
+        var coords = position.coords;
+        alert(coords.latitude+" , "+coords.longitude)
+
+    }*/
 </script>

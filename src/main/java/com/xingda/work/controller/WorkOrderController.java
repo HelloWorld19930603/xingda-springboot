@@ -1,6 +1,8 @@
 package com.xingda.work.controller;
 
+import com.taobao.api.ApiException;
 import com.xingda.exception.FileException;
+import com.xingda.utils.DingTalkUtil;
 import com.xingda.utils.PhotoUtil;
 import com.xingda.utils.StringUtil;
 import com.xingda.utils.SystemPage;
@@ -104,8 +106,8 @@ public class WorkOrderController {
     }
 
     @RequestMapping(value = "getWork", method = RequestMethod.GET)
-    public String getWork() {
-
+    public String getWork(Model model, HttpServletRequest request) throws ApiException {
+        model.addAttribute("config", DingTalkUtil.getConfig(request));
         return "work";
     }
 
