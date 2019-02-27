@@ -31,7 +31,7 @@
     }
     *{margin:0;paddign:0;font-family:"微软雅黑";font-style:normal;font-size:14px;outline: 0;}
     .dropdown{position: relative;display:inline-block;width: 100%;padding-left:10px; }
-    .dropdown-selected{width: 100%!important;height:30px;line-height:30px;border:1px solid #c6c8cc;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;color:#333;text-indent: 10px;margin-bottom: 0!important;}
+    .dropdown-selected{width: 80%!important;height:30px;line-height:30px;border:1px solid #c6c8cc;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;color:#333;text-indent: 10px;}
     .dropdown ul{padding:0;width:100%;max-height:200px;overflow-y:auto ;background-color:#fff;margin-top:2px;border:1px solid #c6c8cc;position:absolute;display:none;z-index: 2;}
     .dropdown ul li{list-style: none;text-indent:10px;}
     .dropdown ul li a{display:block;color:#282c33;text-decoration:none;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
@@ -73,31 +73,22 @@
                                         <label class="col-md-2 col-sm-2 control-label">客户名称</label>
                                         <div class="col-lg-6" style="position:relative" >
                                             <div class="dropdown" id="search" onclick="search.changeValue(this);search.searchKeyword()">
-                                                <input type="text" class="dropdown-selected"
+                                                <input type="text" class="dropdown-selected" style="margin-top: 10px;margin-bottom: 10px"
                                                        id="search-input" placeholder="请输入关键字" onkeyup="search.searchKeyword();">
                                                 <ul id="list">
-                                                    <li><a href="javaScript:">网页设计</a></li>
-                                                    <li><a href="javaScript:">UI设计和WEB前端开发员</a></li>
-                                                    <li><a href="javaScript:">web前端开发工程师</a></li>
-                                                    <li><a href="javaScript:">Javascript</a></li>
-                                                    <li><a href="javaScript:">Html/Html5/Xml</a></li>
-                                                    <li><a href="javaScript:">Css/Css3</a></li>
-                                                    <li><a href="javaScript:">Bootstrap</a></li>
-                                                    <li><a href="javaScript:">angularJS</a></li>
-                                                    <li><a href="javaScript:">java开发工程师</a></li>
-                                                    <li><a href="javaScript:">HTML5页面开发</a></li>
-                                                    <li><a href="javaScript:">ios开发</a></li>
+
                                                 </ul>
                                             </div>
+                                            <div id="editable-sample_new" class="btn btn-primary" style="font-size: 12px;padding: 4px 15px; margin-left: 10px;">
+                                                新增 <i class="fa fa-plus"></i>
+                                            </div>
                                         </div>
-                                        <div id="editable-sample_new" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
-                                            新增 <i class="fa fa-plus"></i>
-                                        </div>
+
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 col-sm-2 control-label">所在位置</label>
                                         <div class="col-md-6 col-sm-6">
-                                            <div id="allmap1" style="width: 400px;height: 200px;"></div>
+                                            <div id="allmap" style="width: 400px;height: 200px;"></div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -155,7 +146,9 @@
 <script src="<%=path%>/js/sweetalert/es6-promise.min.js"></script>
 <!--common scripts for all pages-->
 <script src="<%=path%>/js/scripts.js"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=LDRtZV2K4KlZKkSHCYcCprjb3Z3G52zh"></script>
+<script src="//g.alicdn.com/dingding/dingtalk-jsapi/2.0.57/dingtalk.open.js"></script>
+<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 </body>
 </html>
 <script type="text/javascript">
@@ -340,48 +333,32 @@
         });
     }
 
-    // 百度地图API功能
-    //GPS坐标
-    var x ;
-    var y ;
-  //  getLocation();
-
-
+    <c:if test="${not empty x}">
+    map(${x},${y},"allmap");
+    </c:if>
+    <c:if test="${ empty x}">
+    map(0,0,"allmap");
+    </c:if>
     function map(x,y,map) {
 
         var ggPoint = new BMap.Point(x,y);
         //地图初始化
         var bm = new BMap.Map(map);
-        bm.centerAndZoom(ggPoint, 15);
-        bm.addControl(new BMap.NavigationControl());
-        var marker = new BMap.Marker(ggPoint);
-        bm.addOverlay(marker);
-        bm.panTo(ggPoint);
+        BMap.Convertor.translate(ggPoint, 0, function (point) {
+            var geoc = new BMap.Geocoder();
+            geoc.getLocation(point, function (rs) {
 
-    }
+                bm.addControl(new BMap.NavigationControl());
+                bm.addControl(new BMap.ScaleControl());
+                bm.addControl(new BMap.OverviewMapControl());
+                bm.centerAndZoom(point, 18);
+                bm.addOverlay(new BMap.Marker(point)) ;
 
-    function getLocation() {
-        var geolocation = new BMap.Geolocation();
-        geolocation.enableSDKLocation();
-        geolocation.getCurrentPosition(function(r){
-            if(this.getStatus() == BMAP_STATUS_SUCCESS){
-                x = r.point.lng;
-                y = r.point.lat;
-                <c:if test="${not empty order.lon1 and not empty order.lat1 }">
-                map(${order.lon1},${order.lat1},"allmap1");
-                </c:if>
-                <c:if test="${order.lon1 eq null and order.lat1 eq null}">
-                map(x,y,"allmap1");
-                </c:if>
-            }
-            else {
-                swal({
-                    type:"warning",
-                    html:"获取坐标失败"
-                })
-            }
+              //  var addComp = rs.addressComponents;
+            });
         });
     }
+
 
     function getCustomer(name) {
         $.ajax({
@@ -404,42 +381,70 @@
         });
     }
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(locationSuccess, locationError,{
-            // 指示浏览器获取高精度的位置，默认为false
-            enableHighAcuracy: true,
-            // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
-            timeout: 5000,
-            // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
-            maximumAge: 3000
+    dd.config({
+        agentId: '${config.agentId}', // 必填，微应用ID
+        corpId: '${config.corpId}',//必填，企业ID
+        timeStamp: ${config.timeStamp}, // 必填，生成签名的时间戳
+        nonceStr: '${config.nonceStr}', // 必填，生成签名的随机串
+        signature: '${config.signature}', // 必填，签名
+        type:0,   //选填。0表示微应用的jsapi,1表示服务窗的jsapi；不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
+        jsApiList : [
+            'runtime.info',
+            'biz.contact.choose',
+            'device.notification.confirm',
+            'device.notification.alert',
+            'device.notification.prompt',
+            'biz.ding.post',
+            'device.geolocation.get'
+        ] // 必填，需要使用的jsapi列表，注意：不要带dd。
+    });
+    var code;
+    dd.ready(function() {
+        dd.runtime.permission.requestAuthCode({
+            corpId: "ding3b3dcea5f0fbedba35c2f4657eb6378f", // 企业id
+            onSuccess: function (info) {
+                code = info.code // 通过该免登授权码可以获取用户身份
+                alert(code);
+            }});
+        dd.device.geolocation.get({
+            targetAccuracy : 200,
+            coordinate : 0,
+            withReGeocode : false,
+            useCache:true, //默认是true，如果需要频繁获取地理位置，请设置false
+            onSuccess : function(result) {
+                alert(1231)
+                alert(obj2string(result));
+                alert(result.longitude + "," + result.latitude);
+                map(result.longitude,result.latitude,"allmap");
+                /* 高德坐标 result 结构
+                {
+                    longitude : Number,
+                    latitude : Number,
+                    accuracy : Number,
+                    address : String,
+                    province : String,
+                    city : String,
+                    district : String,
+                    road : String,
+                    netType : String,
+                    operatorType : String,
+                    errorMessage : String,
+                    errorCode : Number,
+                    isWifiEnabled : Boolean,
+                    isGpsEnabled : Boolean,
+                    isFromMock : Boolean,
+                    provider : wifi|lbs|gps,
+                    accuracy : Number,
+                    isMobileEnabled : Boolean
+                }
+                */
+            },
+            onFail : function(err) {
+                alert(obj2string(err))
+            }
         });
-    }else{
-        alert("Your browser does not support Geolocation!");
-    }
 
-    function locationError(error){
-        switch(error.code) {
-/*            case error.TIMEOUT:
-                alert("A timeout occured! Please try again!");
-                break;
-            case error.POSITION_UNAVAILABLE:
-                alert('We can\'t detect your location. Sorry!');
-                break;
-            case error.PERMISSION_DENIED:
-                alert('Please allow geolocation access for this to work.');
-                break;
-            case error.UNKNOWN_ERROR:
-                alert('An unknown error occured!');
-                break;*/
-        }
-    }
-
-
-    function locationSuccess(position){
-        var coords = position.coords;
-        map(coords.longitude,coords.latitude,"allmap1")
-
-    }
+    });
 
     var search = {
         searchKeyword: function () {

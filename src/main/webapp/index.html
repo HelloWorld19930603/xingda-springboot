@@ -46,6 +46,25 @@
 <script src="//g.alicdn.com/dingding/dingtalk-jsapi/2.0.57/dingtalk.open.js"></script>
 <script>
 
+
+	dd.config({
+		agentId: '${config.agentId}', // 必填，微应用ID
+		corpId: '${config.corpId}',//必填，企业ID
+		timeStamp: ${config.timeStamp}, // 必填，生成签名的时间戳
+		nonceStr: '${config.nonceStr}', // 必填，生成签名的随机串
+		signature: '${config.signature}', // 必填，签名
+		type:0,   //选填。0表示微应用的jsapi,1表示服务窗的jsapi；不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
+		jsApiList : [
+			'runtime.info',
+			'biz.contact.choose',
+			'device.notification.confirm',
+			'device.notification.alert',
+			'device.notification.prompt',
+			'biz.ding.post',
+			'device.geolocation.get'
+		] // 必填，需要使用的jsapi列表，注意：不要带dd。
+	});
+
 	var code = '';
 	dd.ready(function() {
 		dd.runtime.permission.requestAuthCode({

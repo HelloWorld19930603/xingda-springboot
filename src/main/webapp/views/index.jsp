@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="static/css/base.css" />
     <script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
 </head>
-<body class="demo-1">
+<body class="demo-1" style="background-color: #dceaea;">
 <svg class="hidden">
     <symbol id="icon-arrow" viewBox="0 0 24 24">
         <title>arrow</title>
@@ -30,7 +30,7 @@
 </svg>
 <main>
     </div>
-    <div class="grid" style="background-color: white;">
+    <div class="grid" style="background-color: white;width: 100%;height: 100%;">
 
         <div class="grid__item theme-11">
             <button class="action"><svg class="icon icon--rewind"><use xlink:href="#icon-rewind"></use></svg></button>
@@ -67,15 +67,52 @@
     });
 
     var code = '';
+    var x='';
+    var y='';
     dd.ready(function() {
         dd.runtime.permission.requestAuthCode({
             corpId: "ding3b3dcea5f0fbedba35c2f4657eb6378f", // 企业id
             onSuccess: function (info) {
                 code = info.code // 通过该免登授权码可以获取用户身份
             }});
+        dd.device.geolocation.get({
+            targetAccuracy : 200,
+            coordinate : 0,
+            withReGeocode : false,
+            useCache:true, //默认是true，如果需要频繁获取地理位置，请设置false
+            onSuccess : function(result) {
+                x = result.longitude;
+                y = result.latitude;
+                /* 高德坐标 result 结构
+                {
+                    longitude : Number,
+                    latitude : Number,
+                    accuracy : Number,
+                    address : String,
+                    province : String,
+                    city : String,
+                    district : String,
+                    road : String,
+                    netType : String,
+                    operatorType : String,
+                    errorMessage : String,
+                    errorCode : Number,
+                    isWifiEnabled : Boolean,
+                    isGpsEnabled : Boolean,
+                    isFromMock : Boolean,
+                    provider : wifi|lbs|gps,
+                    accuracy : Number,
+                    isMobileEnabled : Boolean
+                }
+                */
+            },
+            onFail : function(err) {
+                alert(obj2string(err))
+            }
+        });
     });
 
     function work() {
-        window.location.href = "genergy/getWork?code="+code;
+        window.location.href = "genergy/getWork?code="+code+"&x="+x+"&y="+y;
     }
 </script>

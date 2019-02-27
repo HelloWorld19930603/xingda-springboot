@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
-<%@include file="/commons/path.jsp" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="../commons/path.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,17 +25,23 @@
 </head>
 <style>
     .table-div{
+        width: 100%;
+        overflow: scroll;
         -webkit-overflow-scrolling: touch;
+    }
+    .table-wrap{
+        overflow: scroll;
+        -webkit-overflow-scrolling:touch;
     }
 
 </style>
-<body class="sticky-header">
+<body class="sticky-header" >
 
 <section>
 
 
     <!-- main content start-->
-    <div class="main-content">
+    <div class="main-content" >
 
         <!-- page heading start-->
         <div class="page-heading">
@@ -52,7 +59,7 @@
         <div class="wrapper">
 
             <section class="search-area panel">
-
+                <%--<c:if test="${!(user eq null) && user.isAdmin}">--%>
                 <div class="sa-ele">
                     <label class="se-title">员工编号:</label>
                     <input class="se-con" name="userId"/>
@@ -65,6 +72,7 @@
                     <button class="search-action">搜索</button>
                     <button class="reset-action">重置</button>
                 </div>
+               <%-- </c:if>--%>
                 <div class="btn-group" style="float:right;">
                     <button id="editable-sample_new" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
                         新增 <i class="fa fa-plus"></i>
@@ -72,8 +80,8 @@
                 </div>
             </section>
 
-            <section class="grid-main">
-                <table></table>
+            <section class="grid-main" >
+                <table ></table>
             </section>
         </div>
         <!--body wrapper end-->
@@ -165,7 +173,7 @@
                     text: '编号',
                     isShow: false
                 },
-                {
+/*                {
                     key: 'userId',
                     remind: 'the pic',
                     width: '60px',
@@ -176,7 +184,7 @@
 
                         return userId;
                     }
-                },{
+                },*/{
                     key: 'userName',
                     remind: 'the title',
                     align: 'center',
@@ -209,7 +217,7 @@
                     // 使用函数返回 dom node
                     template: function(createTime, rowObject) {
 
-                        return dateFtt("yyyy-MM-dd hh:mm:ss",new Date(createTime))
+                        return createTime;
                     }
                 }, {
                     key: 'remark',

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
-<%@include file="/commons/path.jsp" %>
+<%@include file="../commons/path.jsp" %>
 <html>
 <head>
     <title>Title</title>
@@ -26,6 +26,7 @@
 <button type="button" class="btn btn-primary btn-lg btn-block" id="bt3">获取userId</button>
 <button type="button" class="btn btn-primary btn-lg btn-block" id="bt4">获取user</button>
 <button type="button" class="btn btn-primary btn-lg btn-block" id="bt5">获取位置</button>
+<div id="allmap" style="width: 400px;height: 200px;"></div>
 </body>
 
 </html>
@@ -49,15 +50,75 @@
 
 <script src="//g.alicdn.com/dingding/dingtalk-jsapi/2.0.57/dingtalk.open.js"></script>
 
+<script src="<%=path%>/js/scripts.js"></script>
 
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=LDRtZV2K4KlZKkSHCYcCprjb3Z3G52zh"></script>
 <script>
     var code;
+
+    dd.config({
+        agentId: '${config.agentId}', // 必填，微应用ID
+        corpId: '${config.corpId}',//必填，企业ID
+        timeStamp: ${config.timeStamp}, // 必填，生成签名的时间戳
+        nonceStr: '${config.nonceStr}', // 必填，生成签名的随机串
+        signature: '${config.signature}', // 必填，签名
+        type:0,   //选填。0表示微应用的jsapi,1表示服务窗的jsapi；不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
+        jsApiList : [
+            'runtime.info',
+            'biz.contact.choose',
+            'device.notification.confirm',
+            'device.notification.alert',
+            'device.notification.prompt',
+            'biz.ding.post',
+            'device.geolocation.get'
+        ] // 必填，需要使用的jsapi列表，注意：不要带dd。
+    });
     dd.ready(function() {
         dd.runtime.permission.requestAuthCode({
             corpId: "ding3b3dcea5f0fbedba35c2f4657eb6378f", // 企业id
             onSuccess: function (info) {
                 code = info.code // 通过该免登授权码可以获取用户身份
             }});
+
+        dd.device.geolocation.get({
+            targetAccuracy : 200,
+            coordinate : 0,
+            withReGeocode : false,
+            useCache:true, //默认是true，如果需要频繁获取地理位置，请设置false
+            onSuccess : function(result) {
+                alert("onSuccess " + result)
+                alert(obj2string(result))
+                map(result.longitude,result.latitude,"allmap");
+                /* 高德坐标 result 结构
+                {
+                    longitude : Number,
+                    latitude : Number,
+                    accuracy : Number,
+                    address : String,
+                    province : String,
+                    city : String,
+                    district : String,
+                    road : String,
+                    netType : String,
+                    operatorType : String,
+                    errorMessage : String,
+                    errorCode : Number,
+                    isWifiEnabled : Boolean,
+                    isGpsEnabled : Boolean,
+                    isFromMock : Boolean,
+                    provider : wifi|lbs|gps,
+                    accuracy : Number,
+                    isMobileEnabled : Boolean
+                }
+                */
+                r = result;
+            },
+            onFail : function(err) {
+                alert("err " +result)
+                alert(obj2string(err))
+            }
+        });
+
     });
 
     $("#bt1").click(function () {
@@ -131,57 +192,9 @@
     $("#bt5").click(function () {
         alert("result = "+r);
     });
-    dd.config({
-        agentId: '${config.agentId}', // 必填，微应用ID
-        corpId: '${config.corpId}',//必填，企业ID
-        timeStamp: ${config.timeStamp}, // 必填，生成签名的时间戳
-        nonceStr: '${config.nonceStr}', // 必填，生成签名的随机串
-        signature: '${config.signature}', // 必填，签名
-        type:0,   //选填。0表示微应用的jsapi,1表示服务窗的jsapi；不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
-        jsApiList : [
-            'runtime.info',
-            'biz.contact.choose',
-            'device.notification.confirm',
-            'device.notification.alert',
-            'device.notification.prompt',
-            'biz.ding.post',
-            'device.geolocation.get',
-        ] // 必填，需要使用的jsapi列表，注意：不要带dd。
-    });
 
-    var r;
-    dd.device.geolocation.get({
-        targetAccuracy : 200,
-        coordinate : 1,
-        withReGeocode : false,
-        useCache:true, //默认是true，如果需要频繁获取地理位置，请设置false
-        onSuccess : function(result) {
-            /* 高德坐标 result 结构
-            {
-                longitude : Number,
-                latitude : Number,
-                accuracy : Number,
-                address : String,
-                province : String,
-                city : String,
-                district : String,
-                road : String,
-                netType : String,
-                operatorType : String,
-                errorMessage : String,
-                errorCode : Number,
-                isWifiEnabled : Boolean,
-                isGpsEnabled : Boolean,
-                isFromMock : Boolean,
-                provider : wifi|lbs|gps,
-                accuracy : Number,
-                isMobileEnabled : Boolean
-            }
-            */
-            r = result;
-        },
-        onFail : function(err) {}
-    });
+
+    var r = 123;
 
 
 
@@ -221,4 +234,17 @@
         alert(coords.latitude+" , "+coords.longitude)
 
     }*/
+
+    function map(x,y,map) {
+
+        var ggPoint = new BMap.Point(x,y);
+        //地图初始化
+        var bm = new BMap.Map(map);
+        bm.centerAndZoom(ggPoint, 15);
+        bm.addControl(new BMap.NavigationControl());
+        var marker = new BMap.Marker(ggPoint);
+        bm.addOverlay(marker);
+        bm.panTo(ggPoint);
+
+    }
 </script>
