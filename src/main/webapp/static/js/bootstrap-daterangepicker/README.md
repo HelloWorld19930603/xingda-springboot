@@ -2,11 +2,11 @@
 
 ![Improvely.com](http://www.dangrossman.purchaseInfo/wp-content/themes/2012/daterangepicker.png)
 
-This date range picker component for Twitter Bootstrap creates a dropdown menu from which a user can 
+This date range picker component for Twitter Bootstrap creates a dropdown menu from which a userDetail can 
 select a range of dates. It was created for the reporting UI at [Improvely](http://www.improvely.com).
 
 If invoked with no options, it will present two calendars to choose a start 
-and end date from. Optionally, you can provide a list of date ranges the user can select from instead 
+and end date from. Optionally, you can provide a list of date ranges the userDetail can select from instead 
 of choosing dates from the calendars. If attached to a text input, the selected dates will be inserted 
 into the text box. Otherwise, you can provide a custom callback function to receive the selection.
 

@@ -70,10 +70,30 @@
                                         <span class="timeline-icon"></span>
                                         <span class="timeline-date"><fmt:formatDate value="${order.time}" pattern="yyyy-MM-dd mm:HH:ss" /></span>
                                         <h1 class="red"><fmt:formatDate value="${order.time}" pattern="yyyy-MM-dd mm:HH:ss" /></h1>
+                                        <p>${order.customerName}</p>
                                         <p>${order.remark}</p>
-                                        <a href="<%=context%>${order.img}" data-fancybox data-caption="''">
-                                        <img src="<%=context%>${order.img}" width="90px" height="100px" alt="" />'
+                                        <div class="album">
+                                        <c:forEach items="${order.imgList}" var="img" >
+                                        <a href="<%=context%>${img.img}" data-fancybox data-caption="''">
+                                        <img src="<%=context%>${img.img}" width="90px" height="100px" alt="" />'
                                          </a>
+                                        </c:forEach>
+                                        </div>
+
+                                        <div style="height: 50px">----</div>
+                                        <span class="arrow<c:if test="${vs.index%2==0 }">-alt</c:if>"></span>
+                                        <span class="timeline-icon"></span>
+                                        <span class="timeline-date"><fmt:formatDate value="${order.time}" pattern="yyyy-MM-dd mm:HH:ss" /></span>
+                                        <h1 class="red"><fmt:formatDate value="${order.time}" pattern="yyyy-MM-dd mm:HH:ss" /></h1>
+                                        <p>${order.customerName}</p>
+                                        <p>${order.remark}</p>
+                                        <div class="album">
+                                            <c:forEach items="${order.imgList}" var="img" >
+                                                <a href="<%=context%>${img.img}" data-fancybox data-caption="''">
+                                                    <img src="<%=context%>${img.img}" width="90px" height="100px" alt="" />'
+                                                </a>
+                                            </c:forEach>
+                                        </div>
 
                                     </div>
                                 </div>

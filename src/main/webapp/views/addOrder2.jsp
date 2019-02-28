@@ -18,6 +18,8 @@
   <link href="<%=path%>/css/style-responsive.css" rel="stylesheet">
     <link href="<%=path%>/css/animate.min.css" rel="stylesheet">
     <link href="<%=path%>/css/jquery.stepy.css" rel="stylesheet">
+    <link href="<%=path%>/css/common.css" type="text/css" rel="stylesheet"/>
+    <link href="<%=path%>/css/index.css" type="text/css" rel="stylesheet"/>
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
   <script src="<%=path%>/js/html5shiv.js"></script>
@@ -37,6 +39,10 @@
     .dropdown ul li a{display:block;color:#282c33;text-decoration:none;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
     .dropdown ul li:hover{background-color:#f2f6fa;}
     .dropdown ul li a:active,.dropdown ul li.active a{background-color: #e4e9f2;
+    }
+    input{
+        margin-top: 10px;
+        margin-bottom: 10px
     }
 </style>
 <body class="sticky-header">
@@ -72,9 +78,9 @@
                                     <div class="form-group">
                                         <label class="col-md-2 col-sm-2 control-label">客户名称</label>
                                         <div class="col-lg-6" style="position:relative" >
-                                            <div class="dropdown" id="search" onclick="search.changeValue(this);search.searchKeyword()">
+                                            <div class="dropdown" id="search" >
                                                 <input type="text" class="dropdown-selected" style="margin-top: 10px;margin-bottom: 10px"
-                                                       id="search-input" placeholder="请输入关键字" onkeyup="search.searchKeyword();">
+                                                       id="search-input" value="${order.customerName} ">
                                                 <ul id="list">
 
                                                 </ul>
@@ -83,7 +89,24 @@
                                                 新增 <i class="fa fa-plus"></i>
                                             </div>
                                         </div>
-
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="com" class="control-label col-lg-2">客户进展</label>
+                                        <div class="col-lg-5">
+                                            <select class="form-control m-bot14" name="com" id="com" >
+                                                <option value="">请选择</option>
+                                                <option value="1">建立关系</option>
+                                                <option value="2">合同签订</option>
+                                                <option value="3">收取货款</option>
+                                                <option value="4">客户回访</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="remark" class="control-label col-lg-3">备注</label>
+                                        <div class="col-lg-4">
+                                            <input class="form-control " id="remark" name="remark" type="text" value="${order.remark}"/>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 col-sm-2 control-label">所在位置</label>
@@ -92,21 +115,35 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-2 control-label span3"></label>
                                         <div class="col-md-6">
-                                                <img  id="img" src="<%=path%>/images/default.png" width="100px" height="100px">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label  class="col-md-2 control-label ">图片上传</label>
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <input id="photoCover1" class="form-control" readonly type="text">
-                                                <label class="input-group-btn">
-                                                    <input id="file1" type="file" name="file" style="left: -9999px; position: absolute;">
-                                                    <span class="btn btn-default">浏览</span>
-                                                </label>
+                                            <div class="img-box full">
+                                                <section class=" img-section">
+                                                    <p class="up-p">客戶图片：<span class="up-span">最多可以上传5张图片，马上上传</span></p>
+                                                    <div class="z_photo upimg-div clear" >
+                                                        <!--<section class="up-section fl">
+                                                                <span class="up-span"></span>
+                                                                <img src="/img/buyerCenter/a7.png" class="close-upimg">
+                                                                <img src="/img/buyerCenter/3c.png" class="type-upimg" alt="添加标签">
+                                                                <img src="/img/test2.jpg" class="up-img">
+                                                                <p class="img-namep"></p>
+                                                                <input id="taglocation" name="taglocation" value="" type="hidden">
+                                                                <input id="tags" name="tags" value="" type="hidden">
+                                                            </section>-->
+                                                        <section class="z_file fl">
+                                                            <img src="<%=path%>/images/a11.png" class="add-img">
+                                                            <input type="file" name="file" id="file" class="file"  accept="image/jpg,image/jpeg,image/png,image/bmp" multiple />
+                                                        </section>
+                                                    </div>
+                                                </section>
                                             </div>
+<%--                                            <aside class="mask works-mask">
+                                                <div class="mask-content">
+                                                    <p class="del-p">您确定要删除作品图片吗？</p>
+                                                    <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                                                </div>
+                                            </aside>--%>
+
+                                            <input type="hidden" name="imgUpload" id="imgUpload"  />
                                         </div>
                                     </div>
 
@@ -145,10 +182,11 @@
 <!-- IE support -->
 <script src="<%=path%>/js/sweetalert/es6-promise.min.js"></script>
 <!--common scripts for all pages-->
-<script src="<%=path%>/js/scripts.js"></script>
+<script src="<%=path%>/js/imgUp.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=LDRtZV2K4KlZKkSHCYcCprjb3Z3G52zh"></script>
 <script src="//g.alicdn.com/dingding/dingtalk-jsapi/2.0.57/dingtalk.open.js"></script>
 <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+
 </body>
 </html>
 <script type="text/javascript">
@@ -230,74 +268,54 @@
             })
         });
 
-
-        $("#file1").change(function (e) {
-            var file = e.target.files[0] || e.dataTransfer.files[0];
-            $('#photoCover').val(document.getElementById("file1").files[0].name);
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function () {
-                    $("#img").attr("src", this.result);
-                }
-
-                reader.readAsDataURL(file);
-            }
-        });
-
         $("#finished1").click(function (e) {
-            var file = document.getElementById("file1").files[0];
             var formData = new FormData();
-            if(file){
-                formData.append('file', file);
-            }else{
+            var images= $("#imgUpload").val();
+            if(images == null || images.length == 0){
                 swal({
                     type: 'warning',
                     html: '请添加客户图片'
                 });
                 return;
+            }else{
+                formData.append('images', images);
             }
             var workId = $("#workId").val().trim();
             var remark = $("#remark").val().trim();
-            var img = $("#img").val().trim();
             formData.append('workId', workId);
-            formData.append('lat', y);
-            formData.append('lon', x);
-            formData.append('img', img);
+            formData.append('lat2', y);
+            formData.append('lon2', x);
             formData.append('remark', remark);
-            formData.append('mark', 1);
             save(formData);
         });
 
         $("#finished2").click(function (e) {
-            var file = document.getElementById("file1").files[0];
             var formData = new FormData();
-            if(file){
-                formData.append('file', file);
-            }else{
+            var images= $("#imgUpload").val();
+            if(images == null || images.length == 0){
                 swal({
                     type: 'warning',
                     html: '请添加客户图片'
                 });
                 return;
+            }else{
+                formData.append('images', images);
             }
             var workId = $("#workId").val().trim();
             var remark = $("#remark").val().trim();
             var customerName = $("#search-input").val().trim();
-            var img = $("#img").val().trim();
             formData.append('workId', workId);
-            formData.append('lat', y);
-            formData.append('lon', x);
-            formData.append('img', img);
+            formData.append('lat2', y);
+            formData.append('lon2', x);
             formData.append('remark', remark);
             formData.append('customerName', customerName);
-            formData.append('mark', 0);
             save(formData);
         });
     })
     //方式一 Jquery实现
     function save(formData) {
         $.ajax({
-            url: "<%=context%>/genergy/addOrder",
+            url: "<%=context%>/genergy/addOrder2",
             type: "post",
             data: formData,
             contentType: false,
@@ -334,11 +352,14 @@
     }
 
     <c:if test="${not empty x}">
-    map(${x},${y},"allmap");
+    var x = ${x};
+    var y = ${y};
     </c:if>
     <c:if test="${ empty x}">
-    map(0,0,"allmap");
+    var x = 0;
+    var y = 0;
     </c:if>
+    map(x,y,"allmap");
     function map(x,y,map) {
 
         var ggPoint = new BMap.Point(x,y);

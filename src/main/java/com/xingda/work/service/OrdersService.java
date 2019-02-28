@@ -18,7 +18,16 @@ public class OrdersService {
         return ordersMapper.insert(orders);
     }
 
-    public List selectAll(int workId) {
+    public List<Orders> selectAll(int workId) {
         return ordersMapper.selectList(new QueryWrapper<Orders>().lambda().eq(Orders::getWorkId, workId));
+    }
+
+    public void update(Orders orders) {
+        ordersMapper.updateById(orders);
+    }
+
+
+    public Orders selectByStatus(int workId,byte status){
+        return ordersMapper.selectOne(new QueryWrapper<Orders>().lambda().eq(Orders::getWorkId,workId).eq(Orders::getStatus,status));
     }
 }

@@ -59,7 +59,7 @@
         <div class="wrapper">
 
             <section class="search-area panel">
-                <%--<c:if test="${!(user eq null) && user.isAdmin}">--%>
+                <%--<c:if test="${!(userDetail eq null) && userDetail.isAdmin}">--%>
                 <div class="sa-ele">
                     <label class="se-title">员工编号:</label>
                     <input class="se-con" name="userId"/>
@@ -194,7 +194,7 @@
                     // 使用函数返回 dom node
                     template: function(userName, rowObject) {
 
-                        return userName;
+                        return "<a href='userDetail?userId="+rowObject.userId+"'>"+userName+"</>";
                     }
                 }, {
                     key: 'name',
@@ -211,7 +211,7 @@
                     key: 'createTime',
                     remind: 'the title',
                     align: 'center',
-                    width: '80px',
+                    width: '120px',
                     text: '创建时间',
                     sorting: '',
                     // 使用函数返回 dom node
@@ -248,7 +248,7 @@
                 },{
                     key: 'action',
                     remind: 'the action',
-                    width: '145px',
+                    width: '140px',
                     align: 'center',
                     text: '<span style="color: red">操作</span>',
                     // 直接返回 htmlString

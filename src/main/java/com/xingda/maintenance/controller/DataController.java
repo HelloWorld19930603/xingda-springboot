@@ -21,6 +21,12 @@ public class DataController {
         return "demo";
     }
 
+    @RequestMapping(value = "index", method = RequestMethod.GET)
+    public String index(Model model, HttpServletRequest request) throws ApiException {
+        model.addAttribute("config",DingTalkUtil.getConfig(request));
+        return "index";
+    }
+
     @RequestMapping("getAccessToken")
     @ResponseBody
     public Map getAccessToken()  {

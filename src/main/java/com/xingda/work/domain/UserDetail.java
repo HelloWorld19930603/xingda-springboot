@@ -1,9 +1,14 @@
 package com.xingda.work.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class User {
+public class UserDetail {
+
+    @TableId
     String id;
     String name;
     String position;
@@ -12,6 +17,42 @@ public class User {
     String workPlace;
     String remark;
     boolean isAdmin;
+    boolean isBoss;
+    Date hiredDate;
+    String department;
+    String avatar;
+
+    public boolean isBoss() {
+        return isBoss;
+    }
+
+    public void setBoss(boolean boss) {
+        isBoss = boss;
+    }
+
+    public Date getHiredDate() {
+        return hiredDate;
+    }
+
+    public void setHiredDate(Date hiredDate) {
+        this.hiredDate = hiredDate;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public String getId() {
         return id;

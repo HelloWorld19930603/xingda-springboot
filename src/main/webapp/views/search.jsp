@@ -53,10 +53,10 @@
       -ms-touch-action: manipulation;
       touch-action: manipulation;
       cursor: pointer;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
+      -webkit-userDetail-select: none;
+      -moz-userDetail-select: none;
+      -ms-userDetail-select: none;
+      userDetail-select: none;
       background-image: none;
       border: 1px solid transparent;
       border-radius: 4px;

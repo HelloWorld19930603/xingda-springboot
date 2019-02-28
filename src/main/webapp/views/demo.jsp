@@ -178,7 +178,7 @@
             url: "<%=context%>/getUser?code="+code,//url
             success: function (result) {
                 console.log(result);//打印服务端返回的数据(调试用)
-                alert(result.user);
+                alert(result.userDetail);
             },
             error: function (data) {
                 alert(data);

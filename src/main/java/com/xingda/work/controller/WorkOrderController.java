@@ -6,11 +6,9 @@ import com.xingda.utils.DingTalkUtil;
 import com.xingda.utils.PhotoUtil;
 import com.xingda.utils.StringUtil;
 import com.xingda.utils.SystemPage;
-import com.xingda.work.domain.Customer;
-import com.xingda.work.domain.Orders;
-import com.xingda.work.domain.User;
-import com.xingda.work.domain.Work;
+import com.xingda.work.domain.*;
 import com.xingda.work.service.CustomerService;
+import com.xingda.work.service.OrderImgService;
 import com.xingda.work.service.OrdersService;
 import com.xingda.work.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/genergy")
@@ -37,32 +37,68 @@ public class WorkOrderController {
     OrdersService ordersService;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    OrderImgService orderImgService;
 
 
     @RequestMapping(value = "/addOrder", method = RequestMethod.GET)
     public String addOrder(int workId, Model model) {
+        Orders order = ordersService.selectByStatus(workId,(byte)1);
         model.addAttribute("workId", workId);
-        return "addOrder";
+        if(order == null) {
+            return "addOrder1";
+        }else{
+            model.addAttribute("order",order);
+            return "addOrder2";
+        }
     }
 
-    @RequestMapping(value = "/addOrder", method = RequestMethod.POST)
+    @RequestMapping(value = "/addOrder1", method = RequestMethod.POST)
     @ResponseBody
-    public Object addOrder(Orders orders, int mark, @RequestParam(value = "file", required = false) MultipartFile file,
+    public Object addOrder(Orders orders, String images) {
+        orders.setTime1(new Date());
+        orders.setStatus((byte)1);
+        ordersService.insert(orders);
+        if(StringUtil.isNotEmpty(images)) {
+            String[] imgUpload = images.split(",");
+            for (String img : imgUpload) {
+                orderImgService.insert(new OrderImg(orders.getId(), img));
+            }
+        }
+        workService.updateStatus(orders.getType(), orders.getWorkId());
+        return 0;
+    }
+
+    @RequestMapping(value = "/addOrder2", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addOrder2(Orders orders, String images) {
+
+        orders.setTime2(new Date());
+        orders.setStatus((byte)2);
+        ordersService.update(orders);
+        if(StringUtil.isNotEmpty(images)) {
+            String[] imgUpload = images.split(",");
+            for (String img : imgUpload) {
+                orderImgService.insert(new OrderImg(orders.getId(), img));
+            }
+        }
+        workService.updateStatus(orders.getType(), orders.getWorkId());
+        return 0;
+    }
+
+    @RequestMapping(value = "/addImg", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addImg(@RequestParam(value = "file", required = false) MultipartFile file,
                            HttpServletRequest req) throws IOException, FileException {
+        String imgPath = "";
         if (file != null) {
             String servletContext = req.getSession().getServletContext().getRealPath("/");
-            String imgPath = PhotoUtil.photoUpload(file, "static/images/work/", StringUtil.makeFileName()
+            imgPath = PhotoUtil.photoUpload(file, "static/images/work/", StringUtil.makeFileName()
                     , servletContext);
-            orders.setImg(imgPath);
         }
-        orders.setTime(new Date());
-        ordersService.insert(orders);
-        if (mark == 0) {
-            workService.updateStatus(1, orders.getWorkId());
-        } else {
-            workService.updateStatus(2, orders.getWorkId());
-        }
-        return 0;
+        Map<String,String> map = new HashMap<>();
+        map.put("imgPath",imgPath);
+        return map;
     }
 
     @RequestMapping(value = "/addWork", method = RequestMethod.GET)
@@ -85,9 +121,9 @@ public class WorkOrderController {
                         , servletContext);
                 String context = req.getSession().getServletContext().getRealPath("/");
             }*/
-            User user = (User) request.getSession().getAttribute("user");
-            work.setUserId(user.getId());
-            work.setUserName(user.getName());
+            UserDetail userDetail = (UserDetail) request.getSession().getAttribute("userDetail");
+            work.setUserId(userDetail.getId());
+            work.setUserName(userDetail.getName());
             work.setCreateTime(new Date());
             work.setStatus((byte) 0);
             int id = workService.insert(work);
@@ -100,22 +136,30 @@ public class WorkOrderController {
 
     @RequestMapping(value = "getOrder", method = RequestMethod.GET)
     public String getOrder(Model model, int workId) {
-        List list = ordersService.selectAll(workId);
+        List<Orders> list = ordersService.selectAll(workId);
+        for(Orders order : list){
+            order.setImgList(orderImgService.selectAll(order.getId()));
+        }
         model.addAttribute("orders", list);
         return "order";
     }
 
     @RequestMapping(value = "getWork", method = RequestMethod.GET)
-    public String getWork(Model model, HttpServletRequest request) throws ApiException {
+    public String getWork(Model model, String x,String y,HttpServletRequest request) throws ApiException {
+        request.getSession().setAttribute("x",x);
+        request.getSession().setAttribute("y",y);
         model.addAttribute("config", DingTalkUtil.getConfig(request));
         return "work";
     }
 
     @RequestMapping(value = "getWork", method = RequestMethod.POST)
     @ResponseBody
-    public SystemPage getWork(Integer userId, String userName, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
+    public SystemPage getWork(String userId, String userName, HttpServletRequest request) {
+        UserDetail userDetail = (UserDetail) request.getSession().getAttribute("userDetail");
         List list = workService.selectAll(userId, userName);
+        if(userDetail != null && !userDetail.isAdmin()){
+            list = workService.selectAll(userDetail.getId(), userDetail.getName());
+        }
         SystemPage page = new SystemPage(list.size(), list);
         return page;
     }
@@ -130,10 +174,13 @@ public class WorkOrderController {
     @RequestMapping(value = "addCustomer", method = RequestMethod.POST)
     @ResponseBody
     public Object addCustomer(Customer customer, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
-        if(user != null){
-            customer.setUserId(user.getId());
+        UserDetail userDetail = (UserDetail) request.getSession().getAttribute("userDetail");
+        if(userDetail != null){
+            customer.setUserId(userDetail.getId());
         }
         return customerService.insert(customer);
     }
+
+
+
 }

@@ -21,9 +21,12 @@ import java.util.Map;
 
 public class DingTalkUtil {
 
-    private static String APP_KEY = "dingx3hyrvsxdpm3mywb";
-    private static String APP_SECRET = "V2qTSepMlfkDoDEHZ6WhAYEh0PcdK5NL7v_qEWz9vQjX1bYpxBxwye9Q_beCeq1j";
-    private static String AGENT_ID = "227218743";
+/*    private static String APP_KEY = "dingrpc4fiitodl6ntqw";
+    private static String APP_SECRET = "e0OViYpXNaHhUOPtku74kBjdtZqrqkIz_e29T_756exuSFlervuHsdkEGKHlf5Hm";
+    private static String AGENT_ID = "227218743";*/
+    private static String APP_KEY = "dingebgehcmvtm0emx4o";
+    private static String APP_SECRET = "Yu9VjSlrw7oviRa4PahRFcI6DFwtxOliB9AO6P9urdq3S7ivEg24cU4CgcbaS8D7";
+    private static String AGENT_ID = "225362795";
     private static String CORP_ID = "ding3b3dcea5f0fbedba35c2f4657eb6378f";
 
 
