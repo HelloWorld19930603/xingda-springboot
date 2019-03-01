@@ -24,8 +24,19 @@ public class Orders {
     String customerName;
     byte status;
     byte type;
+    long timeDiff;
+
     @TableField(exist = false)
     List imgList;
+
+
+    public long getTimeDiff() {
+        return timeDiff;
+    }
+
+    public void setTimeDiff(long timeDiff) {
+        this.timeDiff = timeDiff;
+    }
 
     public byte getType() {
         return type;

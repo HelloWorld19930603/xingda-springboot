@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@include file="/commons/path.jsp" %>
+<%@ page import="java.util.Date" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +27,9 @@
     <![endif]-->
 </head>
 <style>
-
+  .timeDiff{
+      float: right;
+  }
 
 </style>
 <body class="sticky-header">
@@ -60,33 +63,31 @@
                                     <a href="#" class="btn btn-primary">开始</a>
                                 </div>
                             </div>
-                        </article>
+                        </article><jsp:useBean id="date" class="java.util.Date" />
                         <c:forEach items="${orders}" var="order" varStatus="vs">
+                            <div class="timeDiff"></div>
                         <article class="timeline-item <c:if test="${vs.index%2==0 }">alt</c:if>">
                             <div class="timeline-desk">
                                 <div class="panel">
                                     <div class="panel-body">
                                         <span class="arrow<c:if test="${vs.index%2==0 }">-alt</c:if>"></span>
                                         <span class="timeline-icon"></span>
-                                        <span class="timeline-date"><fmt:formatDate value="${order.time}" pattern="yyyy-MM-dd mm:HH:ss" /></span>
-                                        <h1 class="red"><fmt:formatDate value="${order.time}" pattern="yyyy-MM-dd mm:HH:ss" /></h1>
+                                        <span class="timeline-date"><fmt:formatDate value="${order.time1}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
+                                        <h1 class="red"><fmt:formatDate value="${order.time1}" pattern="yyyy-MM-dd HH:mm:ss" /></h1>
                                         <p>${order.customerName}</p>
                                         <p>${order.remark}</p>
                                         <div class="album">
-                                        <c:forEach items="${order.imgList}" var="img" >
-                                        <a href="<%=context%>${img.img}" data-fancybox data-caption="''">
-                                        <img src="<%=context%>${img.img}" width="90px" height="100px" alt="" />'
-                                         </a>
-                                        </c:forEach>
-                                        </div>
 
-                                        <div style="height: 50px">----</div>
+                                        <div style="height: 50px"><c:if test="${order.timeDiff ne 0}">用时<fmt:formatDate value="${Date(order.timeDiff - 8*3600000)}" pattern="H小时m分钟s秒" /></c:if></div>
                                         <span class="arrow<c:if test="${vs.index%2==0 }">-alt</c:if>"></span>
                                         <span class="timeline-icon"></span>
-                                        <span class="timeline-date"><fmt:formatDate value="${order.time}" pattern="yyyy-MM-dd mm:HH:ss" /></span>
-                                        <h1 class="red"><fmt:formatDate value="${order.time}" pattern="yyyy-MM-dd mm:HH:ss" /></h1>
+                                            <c:if test="${not empty order.time2}">
+                                        <span class="timeline-date"><fmt:formatDate value="${order.time2}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
+                                        <h1 class="red"><fmt:formatDate value="${order.time2}" pattern="yyyy-MM-dd HH:mm:ss" /></h1>
+                                            </c:if>
                                         <p>${order.customerName}</p>
                                         <p>${order.remark}</p>
+
                                         <div class="album">
                                             <c:forEach items="${order.imgList}" var="img" >
                                                 <a href="<%=context%>${img.img}" data-fancybox data-caption="''">
@@ -98,7 +99,9 @@
                                     </div>
                                 </div>
                             </div>
+                            </div>
                         </article>
+
                         </c:forEach>
 
                     </div>

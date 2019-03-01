@@ -16,6 +16,34 @@ public class Work {
     String remark;
     byte status;
     Date createTime;
+    long average;
+    long total;
+    long road;
+
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public long getRoad() {
+        return road;
+    }
+
+    public void setRoad(long road) {
+        this.road = road;
+    }
+
+    public long getAverage() {
+        return average;
+    }
+
+    public void setAverage(long average) {
+        this.average = average;
+    }
 
     public int getId() {
         return id;

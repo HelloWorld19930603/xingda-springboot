@@ -40,9 +40,9 @@
                 <div class="menu">
                     <span class="menu-icon"><a href="#"><img src="<%=path%>/images/menu-icon.png" alt=""/></a></span>
                     <ul class="nav1">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Services</a></li>
+                        <li><a href="customer">查询客户</a></li>
+                        <li><a href="work?userId=${userDetail.id}">查询工单</a></li>
+                        <%--<li><a href="#">Services</a></li>--%>
                     </ul>
                     <!-- script-for-menu -->
                     <script>

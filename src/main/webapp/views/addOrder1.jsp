@@ -91,10 +91,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group ">
-                                        <label for="com" class="control-label col-lg-2">客户进展</label>
-                                        <div class="col-lg-5">
-                                            <select class="form-control m-bot14" name="com" id="com" >
-                                                <option value="">请选择</option>
+                                        <label for="type" class="control-label col-lg-2">客户进展</label>
+                                        <div class="col-lg-4">
+                                            <select class="form-control m-bot14" name="type" id="type" >
+                                                <option value="" selected>请选择</option>
                                                 <option value="1">建立关系</option>
                                                 <option value="2">合同签订</option>
                                                 <option value="3">收取货款</option>
@@ -103,7 +103,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group ">
-                                        <label for="remark" class="control-label col-lg-3">备注</label>
+                                        <label for="remark" class="control-label col-lg-2">备注</label>
                                         <div class="col-lg-4">
                                             <input class="form-control " id="remark" name="remark" type="text" />
                                         </div>
@@ -220,74 +220,79 @@
                             $('#type').val(),
                             $('#remark').val()
                         ]);
+                            var formData = new FormData();
+                            formData.append('name', resolve[0]);
+                            formData.append('phone', resolve[1]);
+                            formData.append('address', resolve[2]);
+                            formData.append('type', resolve[3]);
+                            formData.append('remark', resolve[4]);
+                            $.ajax({
+                                url: "<%=context%>/genergy/addCustomer",
+                                type: "post",
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                mimeType: "multipart/form-data",
+                                success: function (data) {
+                                    if(data == 0){
+                                        swal({
+                                            type: 'success',
+                                            html: '提交成功'
+                                        });
+                                        $("#search-input").val(resolve[0]);
+                                    }else {
+                                        swal({
+                                            type: 'warning',
+                                            html: '客户已经存在了哦!'
+                                        });
+                                    }
+                                    console.log(data);
+                                },
+                                error: function (data) {
+                                    swal({
+                                        type: 'error',
+                                        html: '客户已经存在了哦！'
+                                    });
+                                    console.log(data);
+                                }
+                            });
                     });
                 }
             }).then(function(result) {
-                var formData = new FormData();
-                formData.append('name', result[0]);
-                formData.append('phone', result[1]);
-                formData.append('address', result[2]);
-                formData.append('type', result[3]);
-                formData.append('remark', result[4]);
-                $.ajax({
-                    url: "<%=context%>/genergy/addCustomer",
-                    type: "post",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    mimeType: "multipart/form-data",
-                    success: function (data) {
-                        if(data == 0){
-                            swal({
-                                type: 'success',
-                                html: '提交成功'
-                            });
-                            getCustomer(name);
-                        }else if(data >0){
-                            $("#id").val(data);
-                            swal({
-                                type: 'success',
-                                html: '提交成功'
-                            });
-                        }else{
-                            swal({
-                                type: 'error',
-                                html: '提交失败'
-                            });
-                        }
-                        console.log(data);
-                    },
-                    error: function (data) {
-                        swal({
-                            type: 'error',
-                            html: '提交失败'
-                        });
-                        console.log(data);
-                    }
-                });
+
             })
         });
 
         $("#finished1").click(function (e) {
-            var formData = new FormData();
-            var images= $("#imgUpload").val();
-            if(images == null || images.length == 0){
-                swal({
-                    type: 'warning',
-                    html: '请添加客户图片'
-                });
-                return;
-            }else{
-                formData.append('images', images);
-            }
-            var workId = $("#workId").val().trim();
-            var remark = $("#remark").val().trim();
-            formData.append('workId', workId);
-            formData.append('lat1', y);
-            formData.append('lon1', x);
-            formData.append('remark', remark);
-            formData.append('mark', 1);
-            save(formData);
+            $.ajax({
+                url: "<%=context%>/genergy/finishWork",
+                type: "post",
+                data: "workId="+$("#workId").val().trim(),
+                contentType: false,
+                processData: false,
+                mimeType: "multipart/form-data",
+                success: function (data) {
+                    if(data == 0){
+                        swal({
+                            type: 'success',
+                            html: '提交成功'
+                        });
+                    }else {
+                        swal({
+                            type: 'waring',
+                            html: '客户不存在'
+                        });
+                    }
+                    console.log(data);
+                },
+                error: function (data) {
+                    swal({
+                        type: 'error',
+                        html: '提交失败'
+                    });
+                    console.log(data);
+                }
+            })
         });
 
         $("#finished2").click(function (e) {
@@ -323,16 +328,10 @@
                         type: 'success',
                         html: '提交成功'
                     });
-                }else if(data >0){
-                    $("#id").val(data);
+                }else {
                     swal({
-                        type: 'success',
-                        html: '提交成功'
-                    });
-                }else{
-                    swal({
-                        type: 'error',
-                        html: '提交失败'
+                        type: 'waring',
+                        html: '客户不存在'
                     });
                 }
                 console.log(data);

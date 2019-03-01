@@ -60,20 +60,20 @@
 
             <section class="search-area panel">
                 <%--<c:if test="${!(userDetail eq null) && userDetail.isAdmin}">--%>
-                <div class="sa-ele" style="display: none;">
-                    <label class="se-title">员工编号:</label>
-                    <input class="se-con" name="userId"/>
-                </div>
                 <div class="sa-ele">
-                    <label class="se-title">员工名称:</label>
-                    <input class="se-con" name="userName" />
+                    <label class="se-title">客户名称:</label>
+                    <input class="se-con" name="customerName"/>
+                </div>
+                <div class="sa-ele" style="display: none">
+                    <label class="se-title">业务员名称:</label>
+                    <input class="se-con" name="userName"/>
                 </div>
                 <div class="sa-ele">
                     <button class="search-action">搜索</button>
                     <button class="reset-action">重置</button>
                 </div>
                <%-- </c:if>--%>
-                <div class="btn-group" style="float:right;">
+                <div class="btn-group" style="float:right;display: none">
                     <button id="editable-sample_new" class="btn btn-primary" style="font-size: 12px;padding: 4px 10px;">
                         新增 <i class="fa fa-plus"></i>
                     </button>
@@ -135,7 +135,7 @@
             // ajax_url 将在v2.6.0以上版本废弃，请不要再使用
             // ,ajax_url: 'http://www.lovejavascript.com/blogManager/getBlogList'
             ,ajax_data: function () {
-                return '<%=context%>/genergy/getWork';
+                return '<%=context%>/genergy/getOrders';
             }
             // ,firstLoading: false // 初始渲染时是否加载数据
             ,ajax_type: 'POST'
@@ -146,7 +146,7 @@
             ,ajax_error: function(error){
                 console.log('ajax_error');
             }
-            ,query: {<c:if test="${not empty userId}">userId: '${userId}'</c:if>}
+            ,query: {customerName: '${customerName}'}
             ,dataKey: 'list'  // 注意: 这里是用来测试responseHandler 是否生效; 数据本身返回为data, 而在这里我把数据名模拟为list, 再通过responseHandler去更改
             ,pageSize:10
 
@@ -173,51 +173,51 @@
                     text: '编号',
                     isShow: false
                 },
-/*                {
-                    key: 'userId',
+                {
+                    key: 'customerName',
                     remind: 'the pic',
-                    width: '60px',
+                    width: '80px',
                     align: 'center',
-                    text: '员工编号',
+                    text: '客户名称',
                     // 使用函数返回 dom node
-                    template: function(userId, rowObject) {
+                    template: function(customerName, rowObject) {
 
-                        return userId;
-                    }
-                },*/{
-                    key: 'userName',
-                    remind: 'the title',
-                    align: 'center',
-                    width: '60px',
-                    text: '员工名称',
-                    sorting: '',
-                    // 使用函数返回 dom node
-                    template: function(userName, rowObject) {
-
-                        return "<a href='userDetail?userId="+rowObject.userId+"'>"+userName+"</>";
-                    }
-                }, {
-                    key: 'name',
-                    remind: 'the pic',
-                    width: '100px',
-                    align: 'center',
-                    text: '任务',
-                    // 使用函数返回 dom node
-                    template: function(name, rowObject) {
-
-                        return name;
+                        return customerName;
                     }
                 },{
-                    key: 'createTime',
+                    key: 'time1',
                     remind: 'the title',
                     align: 'center',
                     width: '120px',
-                    text: '创建时间',
+                    text: '签到时间',
                     sorting: '',
                     // 使用函数返回 dom node
-                    template: function(createTime, rowObject) {
+                    template: function(time1, rowObject) {
 
-                        return createTime;
+                        return time1;
+                    }
+                }, {
+                    key: '离开时间',
+                    remind: 'the pic',
+                    width: '120px',
+                    align: 'center',
+                    text: '离开时间',
+                    // 使用函数返回 dom node
+                    template: function(time2, rowObject) {
+
+                        return time2;
+                    }
+                },{
+                    key: 'timeDiff',
+                    remind: 'the title',
+                    align: 'center',
+                    width: '120px',
+                    text: '用时',
+                    sorting: '',
+                    // 使用函数返回 dom node
+                    template: function(timeDiff, rowObject) {
+
+                        return timeDiff;
                     }
                 }, {
                     key: 'remark',
@@ -238,14 +238,16 @@
                     align: 'center',
                     template: function(status, rowObject){
                         if(status == 0){
-                            return "未开始";
+                            return "离开公司";
                         }else if(status == 1){
-                            return "进行中";
+                            return "客户签到";
                         }else if(status == 2){
-                            return "已完结";
+                            return "离开客户";
+                        }else if(status == 2){
+                            return "回到公司";
                         }
                     }
-                },{
+                }/*,{
                     key: 'action',
                     remind: 'the action',
                     width: '140px',
@@ -260,7 +262,7 @@
                         htmlString += '<span class="plugin-action" gm-click="editRowData2">签到</span>'
                         return htmlString;
                     }
-                }
+                }*/
             ]
             // 排序后事件
             ,sortingAfter: function (data) {
@@ -274,7 +276,7 @@
 
 
     function editRowData(rowData){
-        window.location.href = "<%=context%>/genergy/getOrder?workId="+rowData.id;
+        window.location.href = "<%=context%>/genergy/getCustomer?workId="+rowData.id;
     }
 
     function editRowData2(rowData){
@@ -293,7 +295,7 @@
         // 绑定搜索事件
         document.querySelector('.search-action').addEventListener('click', function () {
             var _query = {
-                userId: document.querySelector('[name="userId"]').value,
+                customerName: document.querySelector('[name="customerName"]').value,
                 userName: document.querySelector('[name="userName"]').value,
                 index: 1
             };
@@ -304,12 +306,77 @@
 
         // 绑定重置
         document.querySelector('.reset-action').addEventListener('click', function () {
-            document.querySelector('[name="userId"]').value = '';
+            document.querySelector('[name="customerName"]').value = '';
             document.querySelector('[name="userName"]').value = '';
         });
 
         $("#editable-sample_new").click(function () {
-            window.open("addWork");
+            swal({
+                title: '录入客户信息',
+                html:
+                    '<input id="cname" class="swal2-input" autofocus placeholder="客户名称">' +
+                    '<input id="phone" class="swal2-input" placeholder="客户电话">'+
+                    '<input id="address" class="swal2-input" placeholder="客户地址">'+
+                    '                                        <select class="col-md-2 col-sm-2 form-control m-bot15" id="type" >\n' +
+                    '                                            <option value="1">公司</option><option value="2">个人</option>\n' +
+                    '                                        </select>'+
+                    '<input id="remark" class="swal2-input" placeholder="备注">',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '确认',
+                cancelButtonText:'取消',
+                showCancelButton: true,
+                preConfirm: function() {
+                    return new Promise(function(resolve) {
+                        resolve([
+                            $('#cname').val(),
+                            $('#phone').val(),
+                            $('#address').val(),
+                            $('#type').val(),
+                            $('#remark').val()
+                        ]);
+                        {
+                            var formData = new FormData();
+                            formData.append('name', resolve[0]);
+                            formData.append('phone', resolve[1]);
+                            formData.append('address', resolve[2]);
+                            formData.append('type', resolve[3]);
+                            formData.append('remark', resolve[4]);
+                            $.ajax({
+                                url: "<%=context%>/genergy/addCustomer",
+                                type: "post",
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                mimeType: "multipart/form-data",
+                                success: function (data) {
+                                    if(data == 0){
+                                        swal({
+                                            type: 'success',
+                                            html: '提交成功'
+                                        });
+                                        $("#search-input").val(resolve[0]);
+                                    }else {
+                                        swal({
+                                            type: 'warning',
+                                            html: '客户已经存在了哦!'
+                                        });
+                                    }
+                                    console.log(data);
+                                },
+                                error: function (data) {
+                                    swal({
+                                        type: 'error',
+                                        html: '客户已经存在了哦！'
+                                    });
+                                    console.log(data);
+                                }
+                            });
+                        }
+                    });
+                }
+            }).then(function(result) {
+
+            })
         })
     })();
 
@@ -331,13 +398,6 @@
         loop     : true
     });
 
-    var code = null;
-    dd.ready(function() {
-        dd.runtime.permission.requestAuthCode({
-            corpId: "ding3b3dcea5f0fbedba35c2f4657eb6378f", // 企业id
-            onSuccess: function (info) {
-                code = info.code // 通过该免登授权码可以获取用户身份
-            }});
-    });
+
     //  $.fancybox.open('<div class="message"><h2>Hello!</h2><p>You are awesome!</p></div>');
 </script>

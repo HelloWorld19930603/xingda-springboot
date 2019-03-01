@@ -16,10 +16,20 @@ public class Customer {
     String address;
     String remark;
     String userId;
+    String userName;
     byte type;
     int visit;
     Date time;
     int status;
+
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public int getVisit() {
         return visit;

@@ -1,8 +1,6 @@
 package com.xingda.work.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xingda.work.domain.UserDetail;
-import com.xingda.work.domain.Work;
 import com.xingda.work.service.UserService;
 import com.xingda.work.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +34,8 @@ public class UserController {
         map.put("w3",list.get(2));
         map.put("w4",list.get(3));
         model.addAttribute("works",map);
-        IPage<Work> page = workService.selectPage(userId,null,1,4);
-        model.addAttribute("page",page.getRecords());
+        List page = workService.selectPage(userId,null,1,4);
+        model.addAttribute("page",page);
         return "userDetail";
     }
 

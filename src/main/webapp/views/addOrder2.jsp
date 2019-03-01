@@ -91,19 +91,19 @@
                                         </div>
                                     </div>
                                     <div class="form-group ">
-                                        <label for="com" class="control-label col-lg-2">客户进展</label>
-                                        <div class="col-lg-5">
-                                            <select class="form-control m-bot14" name="com" id="com" >
+                                        <label for="type" class="control-label col-lg-2">客户进展</label>
+                                        <div class="col-lg-4">
+                                            <select class="form-control m-bot14" name="type" id="type" >
                                                 <option value="">请选择</option>
-                                                <option value="1">建立关系</option>
-                                                <option value="2">合同签订</option>
-                                                <option value="3">收取货款</option>
-                                                <option value="4">客户回访</option>
+                                                <option value="1" <c:if test="${order.type eq 1}">selected</c:if>>建立关系</option>
+                                                <option value="2" <c:if test="${order.type eq 2}">selected</c:if>>合同签订</option>
+                                                <option value="3" <c:if test="${order.type eq 3}">selected</c:if>>收取货款</option>
+                                                <option value="4" <c:if test="${order.type eq 4}">selected</c:if>>客户回访</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group ">
-                                        <label for="remark" class="control-label col-lg-3">备注</label>
+                                        <label for="remark" class="control-label col-lg-2">备注</label>
                                         <div class="col-lg-4">
                                             <input class="form-control " id="remark" name="remark" type="text" value="${order.remark}"/>
                                         </div>
@@ -220,51 +220,46 @@
                             $('#type').val(),
                             $('#remark').val()
                         ]);
+                        var formData = new FormData();
+                        formData.append('name', resolve[0]);
+                        formData.append('phone', resolve[1]);
+                        formData.append('address', resolve[2]);
+                        formData.append('type', resolve[3]);
+                        formData.append('remark', resolve[4]);
+                        $.ajax({
+                            url: "<%=context%>/genergy/addCustomer",
+                            type: "post",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            mimeType: "multipart/form-data",
+                            success: function (data) {
+                                if(data == 0){
+                                    swal({
+                                        type: 'success',
+                                        html: '提交成功'
+                                    });
+                                    $("#search-input").val(resolve[0]);
+                                }else {
+                                    swal({
+                                        type: 'warning',
+                                        html: '客户已经存在了哦!'
+                                    });
+                                }
+                                console.log(data);
+                            },
+                            error: function (data) {
+                                swal({
+                                    type: 'error',
+                                    html: '客户已经存在了哦！'
+                                });
+                                console.log(data);
+                            }
+                        });
                     });
                 }
             }).then(function(result) {
-                var formData = new FormData();
-                formData.append('name', result[0]);
-                formData.append('phone', result[1]);
-                formData.append('address', result[2]);
-                formData.append('type', result[3]);
-                formData.append('remark', result[4]);
-                $.ajax({
-                    url: "<%=context%>/genergy/addCustomer",
-                    type: "post",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    mimeType: "multipart/form-data",
-                    success: function (data) {
-                        if(data == 0){
-                            swal({
-                                type: 'success',
-                                html: '提交成功'
-                            });
-                            getCustomer(name);
-                        }else if(data >0){
-                            $("#id").val(data);
-                            swal({
-                                type: 'success',
-                                html: '提交成功'
-                            });
-                        }else{
-                            swal({
-                                type: 'error',
-                                html: '提交失败'
-                            });
-                        }
-                        console.log(data);
-                    },
-                    error: function (data) {
-                        swal({
-                            type: 'error',
-                            html: '提交失败'
-                        });
-                        console.log(data);
-                    }
-                });
+
             })
         });
 
