@@ -243,7 +243,7 @@
                             return "客户签到";
                         }else if(status == 2){
                             return "离开客户";
-                        }else if(status == 2){
+                        }else if(status == 3){
                             return "回到公司";
                         }
                     }

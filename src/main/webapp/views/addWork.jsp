@@ -64,12 +64,12 @@
                                     <div class="form-group">
                                         <label for="name" class="control-label col-lg-3">任务名称</label>
                                         <div class="col-lg-5">
-                                            <input class="form-control " id="name" name="name" type="text" />
+                                            <input class="form-control " id="name" name="name" type="text" placeholder="任务名称"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-2 col-sm-2 control-label">任务说明</label>
-                                        <div class="col-md-6 col-sm-6">
+                                        <label for="remark"  class="control-label col-lg-3">任务说明</label>
+                                        <div class="col-lg-5">
                                             <input type="text" id="remark" placeholder="任务说明" class="form-control" >
                                         </div>
                                     </div>
@@ -145,16 +145,13 @@
                     });
                 }else if(data >0){
                     swal({
-                        title: '你确定吗?',
+                        title: '任务创建成功了！',
                         type: 'info',
-                        showCancelButton: true,
                         confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '马上去签到',
-                        cancelButtonText:'稍后再去'
+                        confirmButtonText: '收到',
                     }).then(function(isConfirm) {
                         if (isConfirm) {
-                            window.location.href = "<%=context%>/genergy/addOrder?workId="+data;
+                            window.location.href = "<%=context%>/genergy/getWork";
                         }
                     })
                 }else{

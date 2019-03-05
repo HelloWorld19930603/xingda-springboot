@@ -203,29 +203,22 @@
                     '<input id="cname" class="swal2-input" autofocus placeholder="客户名称">' +
                     '<input id="phone" class="swal2-input" placeholder="客户电话">'+
                     '<input id="address" class="swal2-input" placeholder="客户地址">'+
-                    '                                        <select class="col-md-2 col-sm-2 form-control m-bot15" id="type" >\n' +
+                    '                                        <select class="col-md-2 col-sm-2 form-control m-bot15" id="ctype" >\n' +
                     '                                            <option value="1">公司</option><option value="2">个人</option>\n' +
                     '                                        </select>'+
-                    '<input id="remark" class="swal2-input" placeholder="备注">',
+                    '<input id="cremark" class="swal2-input" placeholder="备注">',
                 cancelButtonColor: '#d33',
                 confirmButtonText: '确认',
                 cancelButtonText:'取消',
                 showCancelButton: true,
                 preConfirm: function() {
                     return new Promise(function(resolve) {
-                        resolve([
-                            $('#cname').val(),
-                            $('#phone').val(),
-                            $('#address').val(),
-                            $('#type').val(),
-                            $('#remark').val()
-                        ]);
                         var formData = new FormData();
-                        formData.append('name', resolve[0]);
-                        formData.append('phone', resolve[1]);
-                        formData.append('address', resolve[2]);
-                        formData.append('type', resolve[3]);
-                        formData.append('remark', resolve[4]);
+                        formData.append('name',  $('#cname').val());
+                        formData.append('phone',$('#phone').val());
+                        formData.append('address',  $('#address').val());
+                        formData.append('type', $('#ctype').val());
+                        formData.append('remark', $('#cremark').val());
                         $.ajax({
                             url: "<%=context%>/genergy/addCustomer",
                             type: "post",
@@ -239,7 +232,9 @@
                                         type: 'success',
                                         html: '提交成功'
                                     });
-                                    $("#search-input").val(resolve[0]);
+                                    $("#search-input").val($('#cname').val());
+                                    var html = $("#list").html() + "<option>"+$('#cname').val()+"</option>";
+                                    $("#list").html(html);
                                 }else {
                                     swal({
                                         type: 'warning',
@@ -299,6 +294,7 @@
             var workId = $("#workId").val().trim();
             var remark = $("#remark").val().trim();
             var customerName = $("#search-input").val().trim();
+            formData.append('id', ${order.id});
             formData.append('workId', workId);
             formData.append('lat2', y);
             formData.append('lon2', x);
@@ -322,12 +318,14 @@
                         type: 'success',
                         html: '提交成功'
                     });
+                    window.location.href = "getWork";
                 }else if(data >0){
                     $("#id").val(data);
                     swal({
                         type: 'success',
                         html: '提交成功'
                     });
+                    window.location.href = "getWork";
                 }else{
                     swal({
                         type: 'error',
@@ -390,77 +388,14 @@
                     result += "<li><a href=\"javaScript:\">"+data[k].name+"</a></li>"
                 }
                 $("#list").html(result);
+
+
             },
             error: function (data) {
                 console.log(data);
             }
         });
     }
-
-    dd.config({
-        agentId: '${config.agentId}', // 必填，微应用ID
-        corpId: '${config.corpId}',//必填，企业ID
-        timeStamp: ${config.timeStamp}, // 必填，生成签名的时间戳
-        nonceStr: '${config.nonceStr}', // 必填，生成签名的随机串
-        signature: '${config.signature}', // 必填，签名
-        type:0,   //选填。0表示微应用的jsapi,1表示服务窗的jsapi；不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
-        jsApiList : [
-            'runtime.info',
-            'biz.contact.choose',
-            'device.notification.confirm',
-            'device.notification.alert',
-            'device.notification.prompt',
-            'biz.ding.post',
-            'device.geolocation.get'
-        ] // 必填，需要使用的jsapi列表，注意：不要带dd。
-    });
-    var code;
-    dd.ready(function() {
-        dd.runtime.permission.requestAuthCode({
-            corpId: "ding3b3dcea5f0fbedba35c2f4657eb6378f", // 企业id
-            onSuccess: function (info) {
-                code = info.code // 通过该免登授权码可以获取用户身份
-                alert(code);
-            }});
-        dd.device.geolocation.get({
-            targetAccuracy : 200,
-            coordinate : 0,
-            withReGeocode : false,
-            useCache:true, //默认是true，如果需要频繁获取地理位置，请设置false
-            onSuccess : function(result) {
-                alert(1231)
-                alert(obj2string(result));
-                alert(result.longitude + "," + result.latitude);
-                map(result.longitude,result.latitude,"allmap");
-                /* 高德坐标 result 结构
-                {
-                    longitude : Number,
-                    latitude : Number,
-                    accuracy : Number,
-                    address : String,
-                    province : String,
-                    city : String,
-                    district : String,
-                    road : String,
-                    netType : String,
-                    operatorType : String,
-                    errorMessage : String,
-                    errorCode : Number,
-                    isWifiEnabled : Boolean,
-                    isGpsEnabled : Boolean,
-                    isFromMock : Boolean,
-                    provider : wifi|lbs|gps,
-                    accuracy : Number,
-                    isMobileEnabled : Boolean
-                }
-                */
-            },
-            onFail : function(err) {
-                alert(obj2string(err))
-            }
-        });
-
-    });
 
     var search = {
         searchKeyword: function () {

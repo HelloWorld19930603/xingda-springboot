@@ -113,6 +113,15 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.41</version>
         </dependency>
+
+        <dependency>
+            <groupId>taobao-sdk-java-auto_1479188381469-20190129</groupId>
+            <artifactId>taobao-sdk-java-auto</artifactId>
+            <version>3.2.3</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/taobao-sdk-java-auto_1479188381469-20190129.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -133,6 +142,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration><includeSystemScope>true</includeSystemScope></configuration>
             </plugin>
 
         </plugins>

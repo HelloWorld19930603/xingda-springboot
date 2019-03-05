@@ -203,29 +203,23 @@
                     '<input id="cname" class="swal2-input" autofocus placeholder="客户名称">' +
                     '<input id="phone" class="swal2-input" placeholder="客户电话">'+
                     '<input id="address" class="swal2-input" placeholder="客户地址">'+
-                    '                                        <select class="col-md-2 col-sm-2 form-control m-bot15" id="type" >\n' +
-                    '                                            <option value="1">公司</option><option value="2">个人</option>\n' +
+                    '                                        <select class="col-md-2 col-sm-2 form-control m-bot15" id="ctype" >\n' +
+                    '                                            <option value="1" selected>公司</option><option value="2">个人</option>\n' +
                     '                                        </select>'+
-                    '<input id="remark" class="swal2-input" placeholder="备注">',
+                    '<input id="cremark" class="swal2-input" placeholder="备注">',
                 cancelButtonColor: '#d33',
                 confirmButtonText: '确认',
                 cancelButtonText:'取消',
                 showCancelButton: true,
                 preConfirm: function() {
                     return new Promise(function(resolve) {
-                        resolve([
-                            $('#cname').val(),
-                            $('#phone').val(),
-                            $('#address').val(),
-                            $('#type').val(),
-                            $('#remark').val()
-                        ]);
                             var formData = new FormData();
-                            formData.append('name', resolve[0]);
-                            formData.append('phone', resolve[1]);
-                            formData.append('address', resolve[2]);
-                            formData.append('type', resolve[3]);
-                            formData.append('remark', resolve[4]);
+                            var name = $('#cname').val();
+                            formData.append('name',  name);
+                            formData.append('phone',$('#phone').val());
+                            formData.append('address',  $('#address').val());
+                            formData.append('type', $('#ctype').val());
+                            formData.append('remark', $('#cremark').val());
                             $.ajax({
                                 url: "<%=context%>/genergy/addCustomer",
                                 type: "post",
@@ -239,7 +233,9 @@
                                             type: 'success',
                                             html: '提交成功'
                                         });
-                                        $("#search-input").val(resolve[0]);
+
+                                        var html = $("#list").html() + "<option><a href=\"javaScript:\">"+name+"</a></option>";
+                                        $("#list").html(html);
                                     }else {
                                         swal({
                                             type: 'warning',
@@ -327,7 +323,10 @@
                     swal({
                         type: 'success',
                         html: '提交成功'
+                    }).then(function (value) {
+                        window.location.href = "getWork";
                     });
+
                 }else {
                     swal({
                         type: 'waring',
@@ -390,6 +389,7 @@
                     result += "<li><a href=\"javaScript:\">"+data[k].name+"</a></li>"
                 }
                 $("#list").html(result);
+
             },
             error: function (data) {
                 console.log(data);

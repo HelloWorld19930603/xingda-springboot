@@ -246,6 +246,33 @@
                         }
                     }
                 },{
+                    key: 'road',
+                    remind: 'the type',
+                    text: '路上时间',
+                    width: '80px',
+                    align: 'center',
+                    template: function(road, rowObject){
+                        return formatTime(road);
+                    }
+                },{
+                    key: 'average',
+                    remind: 'the type',
+                    text: '平均时间',
+                    width: '80px',
+                    align: 'center',
+                    template: function(average, rowObject){
+                        return formatTime(average);
+                    }
+                },{
+                    key: 'total',
+                    remind: 'the type',
+                    text: '总时间',
+                    width: '80px',
+                    align: 'center',
+                    template: function(total, rowObject){
+                        return formatTime(total);
+                    }
+                },{
                     key: 'action',
                     remind: 'the action',
                     width: '140px',
@@ -340,4 +367,6 @@
             }});
     });
     //  $.fancybox.open('<div class="message"><h2>Hello!</h2><p>You are awesome!</p></div>');
+
+
 </script>

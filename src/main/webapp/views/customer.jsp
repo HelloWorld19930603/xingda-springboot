@@ -265,7 +265,7 @@
                     template: function(visit, rowObject){
                         return visit;
                     }
-                }/*,{
+                },{
                     key: 'action',
                     remind: 'the action',
                     width: '140px',
@@ -273,14 +273,10 @@
                     text: '<span style="color: red">操作</span>',
                     // 直接返回 htmlString
                     template: function (action,rowObjct) {
-                        var htmlString = '';
-                        if(rowObjct.status != 0)
-                         htmlString = '<span class="plugin-action" gm-click="editRowData">查看</span>';
-                        if(rowObjct.status != 2)
-                        htmlString += '<span class="plugin-action" gm-click="editRowData2">签到</span>'
+                        var htmlString = '<span class="plugin-action" gm-click="editRowData">访问时间统计</span>'
                         return htmlString;
                     }
-                }*/
+                }
             ]
             // 排序后事件
             ,sortingAfter: function (data) {
@@ -294,15 +290,9 @@
 
 
     function editRowData(rowData){
-        window.location.href = "<%=context%>/genergy/getCustomer?workId="+rowData.id;
+        window.location.href = "<%=context%>/genergy/statistics?customerName="+rowData.name;
     }
 
-    function editRowData2(rowData){
-        if(code != null)
-            window.location.href = "<%=context%>/genergy/addOrder?workId="+rowData.id+"&code="+code;
-        else
-            window.location.href = "<%=context%>/genergy/addOrder?workId="+rowData.id;
-    }
 
 
     /**

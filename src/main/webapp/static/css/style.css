@@ -21,6 +21,8 @@ body {
 input, select, textarea {
     font-family: 'Open Sans', sans-serif;
     color: #767676;
+    outline: none;
+
 
 }
 

@@ -30,6 +30,20 @@ public class Orders {
     List imgList;
 
 
+
+    @TableField(exist = false)
+    long timeDiff2;
+
+
+    public long getTimeDiff2() {
+        return timeDiff2;
+    }
+
+    public void setTimeDiff2(long timeDiff2) {
+        this.timeDiff2 = timeDiff2;
+    }
+
+
     public long getTimeDiff() {
         return timeDiff;
     }
