@@ -294,8 +294,16 @@
         $("#finished2").click(function (e) {
             var formData = new FormData();
             var images= $("#imgUpload").val();
-            if(images == null || images.length == 0){
+            if(images != null && images.length != 0){
                 formData.append('images', images);
+            }else{
+                if(imgFlag){
+                    swal({
+                        type: 'warning',
+                        html: '图片还在后台上传中，稍后再试！'
+                    });
+                    return;
+                }
             }
             var workId = $("#workId").val().trim();
             var remark = $("#remark").val().trim();

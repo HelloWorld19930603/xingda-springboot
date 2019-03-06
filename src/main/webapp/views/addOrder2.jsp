@@ -259,9 +259,17 @@
         });
 
         $("#finished1").click(function (e) {
+
             var formData = new FormData();
             var images= $("#imgUpload").val();
             if(images == null || images.length == 0){
+                if(imgFlag){
+                    swal({
+                        type: 'warning',
+                        html: '图片还在后台上传中，稍后再试！'
+                    });
+                    return;
+                }
                 swal({
                     type: 'warning',
                     html: '请添加客户图片'
@@ -282,15 +290,6 @@
         $("#finished2").click(function (e) {
             var formData = new FormData();
             var images= $("#imgUpload").val();
-            if(images == null || images.length == 0){
-                swal({
-                    type: 'warning',
-                    html: '请添加客户图片'
-                });
-                return;
-            }else{
-                formData.append('images', images);
-            }
             var workId = $("#workId").val().trim();
             var remark = $("#remark").val().trim();
             var customerName = $("#search-input").val().trim();

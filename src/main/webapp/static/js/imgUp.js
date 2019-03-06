@@ -109,6 +109,7 @@ $(function () {
     }
 
 
+    var imgFlag = false;
     function uploadImg(file, obj) {
         $("#imguploadFinish").val(false);
         // 验证通过图片异步上传
@@ -116,6 +117,7 @@ $(function () {
         var data = new FormData();
         data.append("path", "opt.formData.path");
         data.append("file", file);
+        imgFlag = true;
         $.ajax({
             type: 'POST',
             url: url,
@@ -131,6 +133,7 @@ $(function () {
                     value = value + "," + data.imgPath;
                 }
                 $("#imgUpload").val(value);
+
                 $(".up-section").removeClass("loading");
                 $(".up-img").removeClass(
                     "up-opcity");
