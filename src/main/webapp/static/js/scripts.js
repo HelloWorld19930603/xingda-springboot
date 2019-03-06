@@ -235,3 +235,11 @@ function obj2string(o){
     }
     return o.toString();
 }
+
+function formatTime(time) {
+    time = time/1000;
+    var h = time / 3600;
+    var m = (time - h * 3600)/60;
+    var s = time - h * 3600 - m * 60
+    return h+"小时"+m+"分钟"+s+"秒";
+}

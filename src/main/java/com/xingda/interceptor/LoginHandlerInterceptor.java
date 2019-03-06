@@ -54,6 +54,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
                     userService.insert(userDetail);
                 }
                 request.getSession().setAttribute("user", userDetail);
+                request.getSession().setAttribute("userId", userDetail.getId());
                 //request.getSession().setAttribute("ddUser",jsonObject);
                 System.out.println("身份验证成功");
             }else{

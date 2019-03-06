@@ -144,6 +144,7 @@
 
             // AJAX失败事件函数
             ,ajax_error: function(error){
+                console.log(obj2string(error))
                 console.log('ajax_error');
             }
             ,query: {<c:if test="${not empty userId}">userId: '${userId}'</c:if>}
@@ -305,9 +306,6 @@
     }
 
     function editRowData2(rowData){
-        if(code != null)
-            window.location.href = "<%=context%>/genergy/addOrder?workId="+rowData.id+"&code="+code;
-        else
             window.location.href = "<%=context%>/genergy/addOrder?workId="+rowData.id;
     }
 
@@ -358,14 +356,7 @@
         loop     : true
     });
 
-    var code = null;
-    dd.ready(function() {
-        dd.runtime.permission.requestAuthCode({
-            corpId: "ding3b3dcea5f0fbedba35c2f4657eb6378f", // 企业id
-            onSuccess: function (info) {
-                code = info.code // 通过该免登授权码可以获取用户身份
-            }});
-    });
+
     //  $.fancybox.open('<div class="message"><h2>Hello!</h2><p>You are awesome!</p></div>');
 
 

@@ -6,22 +6,11 @@ import com.xingda.utils.DingTalkUtil;
 import com.xingda.utils.PhotoUtil;
 import com.xingda.utils.StringUtil;
 import com.xingda.utils.SystemPage;
-import com.xingda.work.domain.Customer;
-import com.xingda.work.domain.OrderImg;
-import com.xingda.work.domain.Orders;
-import com.xingda.work.domain.UserDetail;
-import com.xingda.work.domain.Work;
+import com.xingda.work.domain.*;
 import com.xingda.work.service.CustomerService;
 import com.xingda.work.service.OrderImgService;
 import com.xingda.work.service.OrdersService;
 import com.xingda.work.service.WorkService;
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 @RequestMapping({"/genergy"})
@@ -184,10 +177,7 @@ public class WorkOrderController {
         return "addWork";
     }
 
-    @RequestMapping(
-            value = {"/addWork"},
-            method = {RequestMethod.POST}
-    )
+    @RequestMapping(value = {"/addWork"}, method = {RequestMethod.POST})
     @ResponseBody
     public Object addWrok(Work work, HttpServletRequest request) {
         try {
@@ -222,10 +212,7 @@ public class WorkOrderController {
         }
     }
 
-    @RequestMapping(
-            value = {"getOrder"},
-            method = {RequestMethod.GET}
-    )
+    @RequestMapping(value = {"getOrder"},method = {RequestMethod.GET})
     public String getOrder(Model model, int workId) {
         List<Orders> list = this.ordersService.selectAll(workId);
         int i = 0;
@@ -268,10 +255,7 @@ public class WorkOrderController {
         return "work";
     }
 
-    @RequestMapping(
-            value = {"getWork"},
-            method = {RequestMethod.POST}
-    )
+    @RequestMapping(value = {"getWork"}, method = {RequestMethod.POST})
     @ResponseBody
     public SystemPage getWork(String userId, String userName, int start, int pageSize, HttpServletRequest request) {
         UserDetail userDetail = (UserDetail) request.getSession().getAttribute("userDetail");
