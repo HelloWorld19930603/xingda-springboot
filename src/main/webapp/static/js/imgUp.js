@@ -1,3 +1,4 @@
+var imgFlag = false;
 $(function () {
     var delParent;
     var defaults = {
@@ -109,7 +110,7 @@ $(function () {
     }
 
 
-    var imgFlag = false;
+
     function uploadImg(file, obj) {
         $("#imguploadFinish").val(false);
         // 验证通过图片异步上传
