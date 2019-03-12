@@ -125,13 +125,13 @@ public class WorkOrderController {
         orders.setTime1(new Date());
         this.ordersService.insert(orders);
         List<Orders> ordersList = this.ordersService.selectAll(workId);
-        Orders orders1 = (Orders) ordersList.get(0);
-        Orders orders2 = (Orders) ordersList.get(ordersList.size() - 1);
-        long road = ((Orders) ordersList.get(1)).getTime1().getTime() - orders1.getTime1().getTime();
+        Orders orders1 =  ordersList.get(0);
+        Orders orders2 =  ordersList.get(ordersList.size() - 1);
+        long road = ( ordersList.get(1)).getTime1().getTime() - orders1.getTime1().getTime();
 
         for (int i = 2; i < ordersList.size() - 1; ++i) {
-            if (((Orders) ordersList.get(i - 1)).getTime2() != null) {
-                road += ((Orders) ordersList.get(i)).getTime1().getTime() - ((Orders) ordersList.get(i - 1)).getTime2().getTime();
+            if (( ordersList.get(i - 1)).getTime2() != null) {
+                road += ( ordersList.get(i)).getTime1().getTime() - ( ordersList.get(i - 1)).getTime2().getTime();
             }
         }
 
@@ -212,7 +212,7 @@ public class WorkOrderController {
         }
     }
 
-    @RequestMapping(value = {"getOrder"},method = {RequestMethod.GET})
+    @RequestMapping(value = {"getOrder"}, method = {RequestMethod.GET})
     public String getOrder(Model model, int workId) {
         List<Orders> list = this.ordersService.selectAll(workId);
         int i = 0;

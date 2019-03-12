@@ -274,6 +274,7 @@
                     // 直接返回 htmlString
                     template: function (action,rowObjct) {
                         var htmlString = '<span class="plugin-action" gm-click="editRowData">访问时间统计</span>'
+                         htmlString += '<span class="plugin-action" gm-click="editRowData2">详情</span>'
                         return htmlString;
                     }
                 }
@@ -292,7 +293,9 @@
     function editRowData(rowData){
         window.location.href = "<%=context%>/genergy/statistics?customerName="+rowData.name;
     }
-
+    function editRowData2(rowData){
+        window.location.href = "<%=context%>/genergy/getOrders?customerName="+rowData.name;
+    }
 
 
     /**

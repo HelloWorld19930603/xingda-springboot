@@ -26,7 +26,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        System.out.println("---------- hello --------");
+        //System.out.println("---------- hello --------");
         UserDetail userDetail = (UserDetail) request.getSession().getAttribute("userDetail");
         if(userDetail == null){
             String code = (String) request.getAttribute("code");

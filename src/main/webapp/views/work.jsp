@@ -286,6 +286,7 @@
                          htmlString = '<span class="plugin-action" gm-click="editRowData">查看</span>';
                         if(rowObjct.status != 2)
                         htmlString += '<span class="plugin-action" gm-click="editRowData2">签到</span>'
+                        htmlString += '<span class="plugin-action" gm-click="editRowData3">详情</span>'
                         return htmlString;
                     }
                 }
@@ -307,6 +308,9 @@
 
     function editRowData2(rowData){
             window.location.href = "<%=context%>/genergy/addOrder?workId="+rowData.id;
+    }
+    function editRowData3(rowData){
+        window.location.href = "<%=context%>/genergy/userDetail?userId="+rowData.userId;
     }
 
 
